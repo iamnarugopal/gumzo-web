@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://gumzo.com",
+  site: "https://gumzo.vercel.app",
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

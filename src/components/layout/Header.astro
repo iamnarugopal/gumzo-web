@@ -6,8 +6,13 @@ const navigation = [
   { label: "Mod", href: "/mod" },
   { label: "Help & Feedback", href: "/support" },
 ];
-
-const currentPath = Astro.url.pathname;
+const normalizePath = (path: string) => {
+  if (path === "/") return "/";
+  return path.replace(/\/+$/, "");
+};
+const currentPath = normalizePath(Astro.url.pathname);
+const isActive = (href: string) =>
+  currentPath === normalizePath(href);
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-dark-3/90 backdrop-blur-xl">
@@ -29,10 +34,10 @@ const currentPath = Astro.url.pathname;
       {navigation.map((item) => (
         <a
           href={item.href}
-          aria-current={currentPath === item.href ? "page" : undefined}
+          aria-current={isActive(item.href) ? "page" : undefined}
           class:list={[
             "rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200",
-            currentPath === item.href
+            isActive(item.href)
               ? "bg-primary/15 text-primary"
               : "text-gray-400 hover:bg-white/5 hover:text-white"
           ]}
