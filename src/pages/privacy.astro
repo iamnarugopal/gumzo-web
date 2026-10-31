@@ -1,0 +1,375 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const effectiveDate = "31 October 2026";
+
+const sections = [
+  {
+    id: "introduction",
+    title: "1. Introduction",
+    paragraphs: [
+      "Your privacy matters to us. This Privacy Policy explains how Gumzo collects, uses, stores, processes, and protects information when you access or use our website, mobile applications, chat rooms, messaging features, and other services (collectively, the \"Services\").",
+      "This policy applies to all Gumzo users and visitors. It describes the information we handle, why we need it, when it may be shared, and the choices available to you.",
+      "By using Gumzo, you acknowledge that you have read this Privacy Policy. If you do not agree with our privacy practices, please stop using the Services."
+    ]
+  },
+  {
+    id: "information-collected",
+    title: "2. Information We Collect",
+    paragraphs: [
+      "The information we collect depends on how you use Gumzo and which features you access. We collect information that is necessary to operate, maintain, secure, and improve our Services.",
+      "The information we may collect includes:"
+    ],
+    bullets: [
+      "Account Information: Username, email address, authentication identifiers, and other information provided during account registration or account management.",
+      "Profile Information: Profile details, avatar images, profile preferences, and other information you choose to display on your account.",
+      "Communication Information: Chat messages, private messages, and other content you submit or share through Gumzo.",
+      "Activity Information: Chat room participation, room memberships, interactions, and other activities associated with your use of the platform.",
+      "Settings and Preferences: Language preferences, notification preferences, privacy settings, visibility preferences, and other account settings.",
+      "Reports and Moderation Information: Reports you submit, reported content, moderation records, account restrictions, and information necessary to investigate policy violations.",
+      "Notification Information: Push notification tokens and related notification preferences when you enable push notifications.",
+      "Technical Information: Certain technical information, such as device details, application version, network information, IP address, and diagnostic information, may be processed by our platform infrastructure or service providers."
+    ],
+    ending: "You may choose not to provide certain information. However, some information is necessary for account creation, authentication, or specific features to function."
+  },
+  {
+    id: "how-collected",
+    title: "3. How We Collect Information",
+    paragraphs: [
+      "We obtain information through different methods depending on your interaction with Gumzo."
+    ],
+    bullets: [
+      "Directly from You: When you register, update your profile, send messages, participate in chat rooms, configure settings, submit reports, or contact support.",
+      "Automatically Through the Services: Certain technical and activity-related information may be generated when you access or use the website or mobile application.",
+      "Through Service Providers: Infrastructure and technology providers may process information on our behalf to provide authentication, database, storage, hosting, and notification services."
+    ]
+  },
+  {
+    id: "use-information",
+    title: "4. How We Use Your Information",
+    paragraphs: [
+      "We use the information we collect for legitimate platform purposes, including providing the features and services you request.",
+      "These purposes may include:"
+    ],
+    bullets: [
+      "Creating, authenticating, and managing user accounts.",
+      "Displaying user profiles, avatars, and account information.",
+      "Providing public chat rooms and private messaging.",
+      "Managing room participation, interactions, and other community features.",
+      "Saving account settings and user preferences.",
+      "Sending notifications and important account-related communications.",
+      "Processing reports and investigating inappropriate behavior or policy violations.",
+      "Enforcing our Terms of Service and Community Guidelines.",
+      "Detecting fraud, spam, abuse, unauthorized access, and security threats.",
+      "Maintaining, troubleshooting, and improving the performance of Gumzo.",
+      "Responding to support requests and user inquiries.",
+      "Meeting applicable legal, regulatory, and contractual obligations."
+    ]
+  },
+  {
+    id: "legal-basis",
+    title: "5. Legal Basis for Processing",
+    paragraphs: [
+      "Where applicable data protection laws require a legal basis for processing personal information, we process information under one or more of the following grounds:"
+    ],
+    bullets: [
+      "Contractual Necessity: Processing information required to create your account and provide the Services you request.",
+      "Legitimate Interests: Processing information to maintain platform security, prevent abuse, improve our Services, and protect users, provided these interests do not override your applicable rights.",
+      "Consent: Processing information where you have provided consent, such as for optional features that require it. You may withdraw consent where permitted by law.",
+      "Legal Obligations: Processing or retaining information when required to comply with applicable laws, regulations, or valid legal requests.",
+      "Vital Interests: Processing information when necessary to protect the vital interests of you or another person, where applicable."
+    ],
+    ending: "The applicable legal basis depends on the type of information and the purpose for which it is processed."
+  },
+  {
+    id: "user-content",
+    title: "6. User Content and Public Information",
+    paragraphs: [
+      "Gumzo allows users to create profiles, participate in chat rooms, and communicate with other users.",
+      "Certain information you choose to share may be visible to other users. This may include your username, avatar, profile information, public messages, and other content shared in public areas of the platform.",
+      "Content shared in public chat rooms should be treated as information that other participants may view, copy, save, or share.",
+      "Please avoid posting sensitive personal information, passwords, financial details, private contact information, or other confidential information in public areas.",
+      "You are responsible for the information you choose to make available through your profile and interactions."
+    ]
+  },
+  {
+    id: "messages",
+    title: "7. Chat Messages and Private Communications",
+    paragraphs: [
+      "Gumzo processes messages and related information to provide communication features, deliver messages, maintain platform functionality, and support moderation and security.",
+      "Public room messages may be visible to room participants and may be reviewed when necessary for moderation, safety, or legal compliance.",
+      "Private messages are intended for communication between users. However, private messaging should not be treated as a guarantee of absolute confidentiality. Recipients may save, copy, or share messages, and information may need to be processed to investigate reports or comply with legal obligations.",
+      "We may retain or review relevant communication information when necessary to investigate abuse, enforce platform policies, maintain security, or comply with applicable law."
+    ]
+  },
+  {
+    id: "reports",
+    title: "8. Reports, Blocking and Moderation",
+    paragraphs: [
+      "Gumzo provides reporting, blocking, and moderation features to help maintain a safer community.",
+      "When you submit a report, we may collect the information included in your report, the relevant account identifiers, reported content, related room information, and other details necessary to investigate the matter.",
+      "Moderators and authorized personnel may access relevant information when reviewing reports, investigating violations, or enforcing platform policies.",
+      "We may maintain moderation records, including warnings, restrictions, temporary suspensions, permanent bans, and related decisions, to protect users and prevent repeated violations.",
+      "Information collected for moderation may be retained for as long as reasonably necessary for safety, security, appeals, dispute resolution, and legal compliance."
+    ]
+  },
+  {
+    id: "notifications",
+    title: "9. Push Notifications and Preferences",
+    paragraphs: [
+      "Gumzo may provide push notifications for activities such as messages, interactions, and other account-related events.",
+      "If you enable push notifications, we may process a device push token and your notification preferences to deliver notifications through supported notification services.",
+      "You can manage available notification preferences through your account settings and your device settings.",
+      "Disabling notifications may prevent you from receiving certain alerts, but it will not necessarily disable other account-related communications that are required to operate the Services or comply with legal obligations."
+    ]
+  },
+  {
+    id: "cookies",
+    title: "10. Cookies and Similar Technologies",
+    paragraphs: [
+      "Our website may use cookies, local storage, session storage, or similar technologies where necessary to support website functionality and improve your experience.",
+      "These technologies may be used to maintain sessions, remember preferences, support authentication, and improve website performance.",
+      "You can manage or disable cookies through your browser settings. However, disabling essential cookies or storage technologies may affect certain website features, including login and session functionality.",
+      "The specific technologies used may vary depending on the Services and features available."
+    ]
+  },
+  {
+    id: "third-party",
+    title: "11. Third-Party Service Providers",
+    paragraphs: [
+      "Gumzo relies on third-party service providers to support the operation and delivery of its Services.",
+      "Depending on the features you use, these providers may process information on our behalf for purposes such as:"
+    ],
+    bullets: [
+      "Authentication and account management.",
+      "Database infrastructure and information storage.",
+      "Image and file storage and delivery.",
+      "Application hosting and technical infrastructure.",
+      "Push notification delivery.",
+      "Payment processing, if paid features are offered.",
+      "Security, diagnostics, and technical support."
+    ],
+    ending: "We use service providers only where their services are relevant to operating or supporting Gumzo. Their processing of information is subject to their applicable terms, privacy policies, and contractual arrangements with us."
+  },
+  {
+    id: "sharing",
+    title: "12. When We Share Information",
+    paragraphs: [
+      "We do not sell your personal information to third parties for their independent marketing purposes.",
+      "We may share information in the following circumstances:"
+    ],
+    bullets: [
+      "With Other Users: Information and content that you choose to make visible through your profile, public chat rooms, and other social features.",
+      "With Service Providers: Information necessary for hosting, authentication, storage, notifications, payment processing, and other platform operations.",
+      "For Safety and Moderation: Relevant information with authorized moderators or personnel responsible for investigating reports and protecting the community.",
+      "For Legal Compliance: Information when required or permitted by applicable law, court orders, or valid requests from authorized authorities.",
+      "To Protect Rights and Security: Information when reasonably necessary to investigate fraud, prevent harm, enforce our policies, or protect Gumzo and its users.",
+      "Business Transfers: Information may be transferred as part of a merger, acquisition, restructuring, financing, or sale of all or part of our business, subject to applicable privacy requirements."
+    ],
+    ending: "When information is shared with service providers, we take reasonable steps to ensure that it is handled appropriately and only for relevant purposes."
+  },
+  {
+    id: "retention",
+    title: "13. Data Retention",
+    paragraphs: [
+      "We retain personal information only for as long as reasonably necessary to provide the Services, fulfill the purposes described in this Privacy Policy, and meet applicable legal obligations.",
+      "Retention periods may vary depending on the type of information and the reason it was collected.",
+      "For example:"
+    ],
+    bullets: [
+      "Account information may be retained while your account remains active.",
+      "Profile information and preferences may be retained to provide your account features.",
+      "Messages and other user content may be retained as needed to operate communication features and comply with applicable requirements.",
+      "Reports and moderation records may be retained to investigate violations, prevent repeated abuse, and manage appeals.",
+      "Technical and security records may be retained for troubleshooting, fraud prevention, and platform security.",
+      "Certain information may remain in backups for a limited period after deletion."
+    ],
+    ending: "When information is no longer required, we will take reasonable steps to delete, anonymize, or securely dispose of it, subject to applicable legal and operational requirements."
+  },
+  {
+    id: "security",
+    title: "14. Information Security",
+    paragraphs: [
+      "We take reasonable technical and organizational measures to protect information against unauthorized access, alteration, disclosure, loss, and destruction.",
+      "These measures may include access restrictions, authentication controls, infrastructure security, and other safeguards appropriate to the nature of the information and the risks involved.",
+      "Access to personal information is limited to authorized personnel and service providers who need it for legitimate platform purposes.",
+      "However, no method of electronic transmission or storage is completely secure. We cannot guarantee absolute security, and you should also take reasonable steps to protect your account credentials and personal information."
+    ]
+  },
+  {
+    id: "user-rights",
+    title: "15. Your Privacy Rights and Choices",
+    paragraphs: [
+      "Depending on your location and applicable data protection laws, you may have certain rights regarding your personal information.",
+      "These rights may include:"
+    ],
+    bullets: [
+      "Right to Access: Request information about the personal data we hold about you.",
+      "Right to Correction: Request correction of inaccurate or incomplete personal information.",
+      "Right to Deletion: Request deletion of your personal information, subject to applicable legal and operational exceptions.",
+      "Right to Restrict Processing: Request restrictions on certain processing activities where applicable.",
+      "Right to Data Portability: Request a copy of eligible personal information in a structured and commonly used format, where applicable.",
+      "Right to Object: Object to certain processing activities where permitted by applicable law.",
+      "Right to Withdraw Consent: Withdraw consent for processing activities that rely on your consent.",
+      "Right to Lodge a Complaint: Contact the relevant data protection authority where you believe your privacy rights have been violated."
+    ],
+    ending: "The availability and scope of these rights depend on the laws applicable to you. We may need to verify your identity before processing a privacy request."
+  },
+  {
+    id: "account-deletion",
+    title: "16. Account Deletion and Data Requests",
+    paragraphs: [
+      "You may request deletion of your Gumzo account through the account deletion option provided in the application, where available, or by contacting our support team.",
+      "When an account deletion request is processed, we will take reasonable steps to delete or anonymize associated personal information, subject to applicable legal requirements and legitimate retention needs.",
+      "Some information may need to be retained for a limited period to:"
+    ],
+    bullets: [
+      "Comply with legal or regulatory obligations.",
+      "Investigate fraud, abuse, or security incidents.",
+      "Resolve disputes and enforce our agreements.",
+      "Maintain necessary moderation and safety records.",
+      "Complete deletion from backup systems according to their retention cycles."
+    ],
+    ending: "Deleting your account may result in the permanent loss of access to your profile, messages, room participation, and other account-related features. Some information already shared with other users may remain visible to them or in their possession."
+  },
+  {
+    id: "children",
+    title: "17. Children's Privacy",
+    paragraphs: [
+      "Gumzo is intended for individuals who are at least 18 years old.",
+      "We do not knowingly permit individuals under the age of 18 to create or maintain accounts on Gumzo.",
+      "If we become aware that an account belongs to someone below the required age, we may take appropriate steps, including restricting or terminating the account and handling associated information in accordance with applicable law.",
+      "If you believe that a person under 18 has provided personal information to Gumzo, please contact our support team."
+    ]
+  },
+  {
+    id: "international",
+    title: "18. International Data Processing",
+    paragraphs: [
+      "Gumzo and its service providers may process or store information using infrastructure located in different countries.",
+      "As a result, your information may be transferred to or accessed from a country other than the country in which you reside.",
+      "Where applicable laws require safeguards for international data transfers, we will take reasonable steps to ensure that appropriate protections are in place."
+    ]
+  },
+  {
+    id: "third-party-links",
+    title: "19. Third-Party Websites and Applications",
+    paragraphs: [
+      "Gumzo may contain links to external websites, applications, or services that are not operated by us.",
+      "We are not responsible for the privacy practices, security, or content of those third-party services.",
+      "If you access an external service through a link on Gumzo, we encourage you to review its privacy policy before providing any personal information."
+    ]
+  },
+  {
+    id: "changes",
+    title: "20. Changes to This Privacy Policy",
+    paragraphs: [
+      "We may update this Privacy Policy from time to time to reflect changes in our Services, information practices, technology, or applicable legal requirements.",
+      "When material changes are made, we may notify you through the Gumzo website, mobile application, email, or other appropriate communication channels.",
+      "The updated policy will be published with a revised effective or last updated date.",
+      "We encourage you to review this page periodically to stay informed about how your information is handled."
+    ]
+  },
+  {
+    id: "contact",
+    title: "21. Contact Us",
+    paragraphs: [
+      "If you have questions, concerns, or requests relating to this Privacy Policy or the handling of your personal information, you can contact the Gumzo support team.",
+      "For privacy-related requests, please provide enough information for us to identify your account and understand your request. We may ask for additional information to verify your identity before responding.",
+      "You can reach us through our Contact Support page."
+    ]
+  }
+];
+---
+
+<MainLayout
+  title="Gumzo | Privacy Policy & Data Protection"
+  description="Read Gumzo's Privacy Policy to learn how we collect, use, store, and protect your personal information when you use our chat rooms, messaging, and community features."
+>
+  <section class="min-h-screen bg-dark-3 px-4 py-12 sm:px-6 lg:px-10">
+
+    <div class="w-full">
+
+      <!-- Page Heading -->
+      <div class="mb-10 border-b border-white/10 pb-8">
+
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+          Privacy Policy
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-400">
+          Your privacy matters to us. This policy explains what information
+          Gumzo collects, how we use and protect it, and the choices you
+          have when using our platform.
+        </p>
+
+        <p class="mt-4 text-xs text-gray-500">
+          Effective Date: {effectiveDate}
+        </p>
+
+      </div>
+
+      <!-- Privacy Policy Content -->
+      <div class="w-full space-y-9">
+
+        {sections.map((section) => (
+          <article id={section.id} class="scroll-mt-24">
+
+            <h2 class="text-lg font-semibold text-white sm:text-xl">
+              {section.title}
+            </h2>
+
+            <div class="mt-3 space-y-4 text-sm leading-7 text-gray-400">
+
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+
+              {section.bullets && (
+                <ul class="list-disc space-y-2 pl-6 marker:text-primary">
+                  {section.bullets.map((item) => (
+                    <li class="pl-1">{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.ending && (
+                <p>{section.ending}</p>
+              )}
+
+            </div>
+
+          </article>
+        ))}
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-12 border-t border-white/10 pt-8">
+
+        <h2 class="text-lg font-semibold text-white">
+          Privacy Questions or Requests?
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          If you have questions about your personal information, want to
+          request access or deletion, or have a privacy concern, please
+          contact our support team.
+        </p>
+
+        <a
+          href="/support"
+          class="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          Contact Gumzo Support →
+        </a>
+
+      </div>
+
+    
+
+    </div>
+
+  </section>
+</MainLayout>

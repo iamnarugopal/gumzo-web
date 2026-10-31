@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* ========================================
+   GUMZO THEME
+======================================== */
+
+@theme {
+  /* Brand colors */
+  --color-primary: #A82DDB;
+  --color-secondary: #732FFF;
+  --color-accent: #A6006E;
+  --color-accent-dark: #4D003B;
+
+  /* Status colors */
+  --color-success: #34C782;
+  --color-danger: #DE5E60;
+  --color-warning: #EAB308;
+
+  /* Dark backgrounds */
+  --color-dark-1: #2A1F4C;
+  --color-dark-2: #140F28;
+  --color-dark-3: #0A0714;
+
+  /* Typography */
+  --font-display: "Bagel Fat One", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+}
+
+/* ========================================
+   GLOBAL STYLES
+======================================== */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark-3 text-white font-sans antialiased;
+  }
+
+  /* All headings use primary font */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-normal tracking-widest;
+  }
+
+  /* All paragraphs use secondary font */
+  p {
+    @apply font-sans;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    @apply font-sans;
+  }
+
+  a {
+    @apply font-sans;
+  }
+}

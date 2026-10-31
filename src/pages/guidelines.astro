@@ -1,0 +1,369 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const effectiveDate = "31 October 2026";
+
+const sections = [
+  {
+    id: "respect",
+    title: "1. Respect Everyone",
+    paragraphs: [
+      "Gumzo is a community where people come together to communicate, share ideas, and meet others. Every user deserves to feel respected and welcome.",
+      "Treat other users with kindness and respect, even when you disagree. Different opinions are welcome, but harassment, personal attacks, intimidation, and abusive behavior are not."
+    ],
+    bullets: [
+      "Do not bully, threaten, intimidate, or harass other users.",
+      "Do not repeatedly target someone with unwanted messages or comments.",
+      "Do not encourage others to attack, humiliate, or harass another person.",
+      "Respect other users' boundaries and requests to stop communicating."
+    ]
+  },
+  {
+    id: "hate",
+    title: "2. Hate Speech and Discrimination",
+    paragraphs: [
+      "Gumzo does not allow hateful conduct or content that promotes discrimination, hostility, or violence against individuals or groups.",
+      "You may not attack, threaten, dehumanize, or promote violence against someone based on characteristics such as:"
+    ],
+    bullets: [
+      "Race or ethnicity.",
+      "National origin or nationality.",
+      "Religion or religious affiliation.",
+      "Gender or gender identity.",
+      "Sexual orientation.",
+      "Disability or medical condition.",
+      "Age or other protected characteristics under applicable law."
+    ],
+    ending: "Content or accounts primarily intended to promote hatred, discrimination, or harm against others are not allowed."
+  },
+  {
+    id: "sexual",
+    title: "3. Sexual and Explicit Content",
+    paragraphs: [
+      "Gumzo is intended for social communication and community interaction. Sexual exploitation and inappropriate explicit content are not permitted.",
+      "You may not:"
+    ],
+    bullets: [
+      "Share pornographic images, videos, or other sexually explicit media.",
+      "Send unsolicited sexual messages or sexually explicit material to other users.",
+      "Use chat rooms or private messages to sexually harass or exploit someone.",
+      "Share intimate images of another person without their consent.",
+      "Request, create, distribute, or promote child sexual abuse material.",
+      "Use sexually explicit usernames, profile images, or other content to disturb or target users."
+    ],
+    ending: "Any content involving the sexual exploitation of minors is strictly prohibited and may be reported to the appropriate authorities where required by law."
+  },
+  {
+    id: "violence",
+    title: "4. Graphic and Violent Content",
+    paragraphs: [
+      "You may not share graphic, excessively violent, or disturbing content that promotes or glorifies serious harm.",
+      "This includes:"
+    ],
+    bullets: [
+      "Graphic images or videos showing extreme violence or serious injuries.",
+      "Content promoting physical attacks or violent threats.",
+      "Content encouraging cruelty, torture, or serious harm to people or animals.",
+      "Content celebrating or encouraging real-world acts of violence."
+    ],
+    ending: "Threats of violence against individuals or groups may result in immediate moderation action."
+  },
+  {
+    id: "illegal",
+    title: "5. Illegal Activities",
+    paragraphs: [
+      "Gumzo must not be used for unlawful activities or to encourage others to break the law.",
+      "You may not use the platform to:"
+    ],
+    bullets: [
+      "Promote, organize, or facilitate criminal activities.",
+      "Buy, sell, or distribute illegal goods or substances.",
+      "Share instructions or resources intended to facilitate serious illegal activities.",
+      "Promote scams, fraud, identity theft, or financial deception.",
+      "Share stolen accounts, credentials, or unauthorized access information.",
+      "Encourage users to participate in activities that violate applicable laws."
+    ],
+    ending: "All users are responsible for following the laws and regulations applicable to them."
+  },
+  {
+    id: "privacy",
+    title: "6. Privacy and Personal Information",
+    paragraphs: [
+      "Respecting privacy is essential to maintaining a safe community. Never share another person's private information without their permission.",
+      "You may not:"
+    ],
+    bullets: [
+      "Publish someone's home address, phone number, email address, or other private information without permission.",
+      "Share private conversations, images, or personal details to threaten, embarrass, or harm someone.",
+      "Attempt to discover or expose another user's real identity without their consent.",
+      "Use another person's personal information for harassment, intimidation, or unwanted contact.",
+      "Impersonate another user or use someone else's identity or photographs deceptively."
+    ],
+    ending: "Think carefully before sharing your own personal information in public chat rooms or private conversations."
+  },
+  {
+    id: "spam",
+    title: "7. Spam, Scams and Unwanted Promotion",
+    paragraphs: [
+      "Gumzo should remain a place for genuine conversations, not spam or deceptive activity.",
+      "The following activities are not allowed:"
+    ],
+    bullets: [
+      "Sending repeated unwanted messages or advertisements.",
+      "Posting misleading links, phishing links, or fraudulent offers.",
+      "Impersonating businesses, organizations, or support representatives.",
+      "Promoting fake giveaways, investment scams, or deceptive schemes.",
+      "Using multiple accounts to manipulate interactions or evade restrictions.",
+      "Collecting usernames or personal information for unsolicited marketing."
+    ]
+  },
+  {
+    id: "impersonation",
+    title: "8. Impersonation and Misleading Profiles",
+    paragraphs: [
+      "Your Gumzo account should represent you honestly. You must not mislead other users about your identity or your relationship with another person or organization.",
+      "You may not:"
+    ],
+    bullets: [
+      "Pretend to be another user, public figure, or Gumzo team member.",
+      "Use another person's photos or personal information to deceive others.",
+      "Create fake support, moderator, or administrator accounts.",
+      "Use misleading usernames or profile information to scam or manipulate users.",
+      "Claim authority or permissions that you do not have."
+    ]
+  },
+  {
+    id: "self-harm",
+    title: "9. Self-Harm and Harmful Encouragement",
+    paragraphs: [
+      "We take threats of self-harm and suicide seriously. Gumzo does not allow content that encourages, promotes, or glorifies self-harm or suicide.",
+      "You may not:"
+    ],
+    bullets: [
+      "Encourage someone to hurt themselves or end their life.",
+      "Share content that promotes self-harm as something users should imitate.",
+      "Pressure, threaten, or manipulate someone into harming themselves.",
+      "Encourage another person to engage in dangerous or life-threatening behavior."
+    ],
+    ending: "If you encounter someone who appears to be at immediate risk, report the situation through Gumzo. Where appropriate, encourage them to contact local emergency services or a qualified crisis support service. Gumzo is not an emergency response service."
+  },
+  {
+    id: "trolling",
+    title: "10. Trolling and Disruptive Behavior",
+    paragraphs: [
+      "Friendly jokes and playful conversations are part of social interaction. However, intentionally disrupting conversations or repeatedly provoking other users is not acceptable.",
+      "You should not:"
+    ],
+    bullets: [
+      "Deliberately disrupt chat rooms or conversations.",
+      "Repeatedly provoke users to create arguments or conflicts.",
+      "Flood rooms with meaningless or repetitive messages.",
+      "Use offensive usernames, avatars, or profile content to disturb others.",
+      "Create unnecessary conflicts or encourage group harassment.",
+      "Abuse platform features to interfere with other users' experience."
+    ],
+    ending: "Use common sense and consider whether your behavior contributes positively to the community."
+  },
+  {
+    id: "accounts",
+    title: "11. Account and Platform Abuse",
+    paragraphs: [
+      "Every user is responsible for using Gumzo fairly and respecting the platform and its features.",
+      "You may not:"
+    ],
+    bullets: [
+      "Create accounts to bypass an existing suspension or ban.",
+      "Share, sell, rent, or trade accounts.",
+      "Exploit bugs, glitches, or vulnerabilities for unfair advantages.",
+      "Manipulate room participation, rankings, gifts, or other platform features.",
+      "Use bots, scripts, or automated tools to disrupt the Services.",
+      "Attempt unauthorized access to another user's account or Gumzo systems.",
+      "Interfere with the availability, security, or normal operation of Gumzo."
+    ]
+  },
+  {
+    id: "age",
+    title: "12. Age Requirement",
+    paragraphs: [
+      "Gumzo is intended exclusively for individuals who are at least 18 years old.",
+      "Anyone under the age of 18 is not permitted to create an account or use the Services.",
+      "If we become aware that an account belongs to someone below the required age, we may suspend or terminate the account and take appropriate action regarding associated information in accordance with applicable law."
+    ]
+  },
+  {
+    id: "reporting",
+    title: "13. Reporting Violations",
+    paragraphs: [
+      "If you encounter content or behavior that violates these Community Guidelines, please report it using the reporting features available in Gumzo.",
+      "When submitting a report:"
+    ],
+    bullets: [
+      "Select the reason that best describes the violation.",
+      "Provide accurate details about the incident.",
+      "Include relevant information or evidence when requested.",
+      "Submit reports honestly and avoid abusing the reporting system."
+    ],
+    ending: "Reports may be reviewed by authorized moderation personnel. Submitting a report does not guarantee that a particular action will be taken. We may request additional information when necessary."
+  },
+  {
+    id: "moderation",
+    title: "14. Moderation and Enforcement",
+    paragraphs: [
+      "We reserve the right to review reported content and take appropriate action when these Guidelines or other Gumzo policies are violated.",
+      "Depending on the seriousness, frequency, and circumstances of a violation, moderation actions may include:"
+    ],
+    bullets: [
+      "Removing inappropriate content.",
+      "Issuing a warning.",
+      "Restricting certain account features.",
+      "Temporarily restricting access to chat rooms or messaging.",
+      "Applying a temporary account suspension.",
+      "Permanently banning an account.",
+      "Taking additional steps to protect users and the platform."
+    ],
+    ending: "Serious violations may result in immediate suspension or permanent account termination without a prior warning. Moderation decisions may consider the available evidence, previous violations, and the potential risk to other users."
+  },
+  {
+    id: "appeals",
+    title: "15. Appeals and Review Requests",
+    paragraphs: [
+      "If you believe that a moderation action was applied incorrectly, you may contact Gumzo Support to request a review.",
+      "When submitting an appeal, provide your username, relevant details, and an explanation of why you believe the decision should be reconsidered.",
+      "We will review appeals where appropriate, but we do not guarantee that every decision will be reversed or that every appeal will result in a different outcome."
+    ]
+  },
+  {
+    id: "changes",
+    title: "16. Changes to These Guidelines",
+    paragraphs: [
+      "We may update these Community Guidelines as Gumzo evolves, new features are introduced, or additional safety requirements become necessary.",
+      "Updated Guidelines will be published on this page with a revised effective or last updated date.",
+      "We encourage all users to review these Guidelines periodically. Continued use of Gumzo after changes become effective means you are expected to follow the updated Guidelines."
+    ]
+  },
+  {
+    id: "contact",
+    title: "17. Questions and Support",
+    paragraphs: [
+      "If you have questions about these Community Guidelines, need help reporting a violation, or want to appeal a moderation decision, please contact our support team.",
+      "We appreciate your cooperation in helping make Gumzo a respectful and welcoming community."
+    ]
+  }
+];
+---
+
+<MainLayout
+  title="Gumzo | Community Guidelines & Chat Rules"
+  description="Explore Gumzo's Community Guidelines to understand our chat rules, respectful behaviour, and safety standards. Help keep Gumzo welcoming and safe for everyone."
+>
+  <section class="min-h-screen bg-dark-3 px-4 py-12 sm:px-6 lg:px-10">
+
+    <div class="w-full">
+
+      <!-- Page Heading -->
+      <div class="mb-10 border-b border-white/10 pb-8">
+
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+          Community Guidelines
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-400">
+          Gumzo brings people together to communicate, share ideas, and
+          connect with others. These guidelines explain the behavior
+          and content we expect from everyone to help keep our community
+          respectful and safe.
+        </p>
+
+        <p class="mt-4 text-xs text-gray-500">
+          Effective Date: {effectiveDate}
+        </p>
+
+      </div>
+
+      <!-- Introduction -->
+      <div class="mb-10 space-y-4 text-sm leading-7 text-gray-400">
+
+        <p>
+          Everyone should have the opportunity to communicate and share
+          ideas freely. However, to protect the experience and safety
+          of people using Gumzo, certain types of content and behavior
+          are not allowed.
+        </p>
+
+        <p>
+          All users must follow these Community Guidelines, our Terms
+          of Service, and applicable laws. Violations may result in
+          warnings, restrictions, temporary suspensions, or permanent
+          account termination.
+        </p>
+
+        <p>
+          We may update these guidelines from time to time and reserve
+          the right to take appropriate action when necessary to protect
+          our users and platform.
+        </p>
+
+      </div>
+
+      <!-- Guidelines Content -->
+      <div class="w-full space-y-9">
+
+        {sections.map((section) => (
+          <article id={section.id} class="scroll-mt-24">
+
+            <h2 class="text-lg font-semibold text-white sm:text-xl">
+              {section.title}
+            </h2>
+
+            <div class="mt-3 space-y-4 text-sm leading-7 text-gray-400">
+
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+
+              {section.bullets && (
+                <ul class="list-disc space-y-2 pl-6 marker:text-primary">
+                  {section.bullets.map((item) => (
+                    <li class="pl-1">{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.ending && (
+                <p>{section.ending}</p>
+              )}
+
+            </div>
+
+          </article>
+        ))}
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-12 border-t border-white/10 pt-8">
+
+        <h2 class="text-lg font-semibold text-white">
+          Help Keep Gumzo Safe
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          If you see something that violates our guidelines or need
+          assistance with a safety concern, please contact our support
+          team. Your reports help us maintain a better community.
+        </p>
+
+        <a
+          href="/support"
+          class="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          Contact Gumzo Support →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+</MainLayout>

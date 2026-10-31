@@ -1,0 +1,45 @@
+
+---
+import { LuLifeBuoy } from "react-icons/lu";
+import SupportForm from "../components/support/SupportForm";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout
+  title="Gumzo | Contact Support & Get Help"
+  description="Need help with Gumzo? Contact our support team for assistance with your account, chat rooms, messaging, technical issues, or other questions about using Gumzo."
+>
+  <section class="relative isolate min-h-screen overflow-hidden bg-dark-3 px-4 py-12 sm:px-6 sm:py-16">
+
+    <!-- Background Effects -->
+    <div class="pointer-events-none absolute -top-40 left-1/2 -z-10 size-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px]"></div>
+
+    <div class="pointer-events-none absolute -bottom-40 -right-40 -z-10 size-[400px] rounded-full bg-secondary/10 blur-[120px]"></div>
+
+    <div class="mx-auto max-w-2xl">
+
+      <!-- Page Heading -->
+      <div class="mb-9 text-center">
+
+        <span class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary">
+          <LuLifeBuoy size={15} />
+          We're here to help
+        </span>
+
+        <h1 class="mt-6 text-4xl leading-tight text-white sm:text-5xl">
+          How can we help <span class="text-primary">you?</span>
+        </h1>
+
+        <p class="mx-auto mt-5 max-w-lg text-sm leading-7 text-gray-400 sm:text-base">
+          Have a question, found a bug or want to share an idea?
+          Send us a message and our team will look into it.
+        </p>
+
+      </div>
+
+      <!-- React Support Form -->
+      <SupportForm client:load />
+
+    </div>
+  </section>
+</MainLayout>

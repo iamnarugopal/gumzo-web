@@ -1,0 +1,351 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const effectiveDate = "31 October 2026";
+
+const sections = [
+  {
+    id: "commitment",
+    title: "1. Our Commitment to User Safety",
+    paragraphs: [
+      "At Gumzo, we believe everyone should have the ability to communicate, connect, and share experiences in a respectful environment.",
+      "The safety of our community is important to us. We provide reporting, blocking, privacy controls, and moderation features to help users manage their interactions and address inappropriate behavior.",
+      "We work to identify and respond to violations of our Terms of Service and Community Guidelines. Depending on the situation, this may involve reviewing reports, removing inappropriate content, restricting account features, or suspending accounts.",
+      "Although we take reasonable steps to protect our community, no online platform can guarantee that every harmful interaction or inappropriate activity will be prevented."
+    ]
+  },
+  {
+    id: "age",
+    title: "2. Age Requirement",
+    paragraphs: [
+      "Gumzo is strictly intended for individuals who are 18 years of age or older.",
+      "Users under the age of 18 are not permitted to create accounts or access our Services.",
+      "If you encounter someone who appears to be under 18, please report the account through the in-app reporting feature or contact Gumzo Support.",
+      "If we identify an account belonging to an underage user, we may restrict or permanently terminate that account and take appropriate steps in accordance with applicable law."
+    ]
+  },
+  {
+    id: "blocking",
+    title: "3. Blocking a User",
+    paragraphs: [
+      "You have the ability to block users whose behavior makes you uncomfortable or whom you no longer wish to interact with.",
+      "Blocking is an important tool for managing your experience on Gumzo. When you block someone, the platform applies the available communication and visibility restrictions associated with that feature.",
+      "We recommend blocking users who repeatedly send unwanted messages, harass you, or make you feel uncomfortable.",
+      "Blocking does not replace reporting. If a user violates our Community Guidelines, we encourage you to submit a report as well."
+    ]
+  },
+  {
+    id: "reporting",
+    title: "4. Reporting a User",
+    paragraphs: [
+      "If you encounter inappropriate content, harassment, suspicious behavior, or any activity that may put another user at risk, please report it.",
+      "You can use Gumzo's in-app reporting feature to submit a report for review.",
+      "When submitting a report:"
+    ],
+    bullets: [
+      "Select the reason that best describes the issue.",
+      "Provide accurate information about what happened.",
+      "Include relevant details or supporting evidence when requested.",
+      "Report the actual behavior or content that violates our policies.",
+      "Avoid submitting false, misleading, or intentionally abusive reports."
+    ],
+    ending: "Reports are made available to authorized moderation personnel for review. Moderators may investigate the reported activity and take appropriate action based on the available information. We do not guarantee an immediate response or a particular moderation outcome."
+  },
+  {
+    id: "private-messages",
+    title: "5. Control Who Can Send You Private Messages",
+    paragraphs: [
+      "Not everyone wants to receive private messages from every user. Gumzo provides messaging preferences that allow you to manage who can contact you.",
+      "Depending on the available account settings, you can:"
+    ],
+    bullets: [
+      "Allow private messages from other users.",
+      "Restrict private messages to friends.",
+      "Disable private messaging."
+    ],
+    ending: "We encourage users to review their messaging preferences and choose the settings that make them comfortable. You can update these preferences through the available settings in your account."
+  },
+  {
+    id: "moderation",
+    title: "6. Active Moderation",
+    paragraphs: [
+      "Gumzo uses moderation processes and authorized moderators to help enforce our Terms of Service and Community Guidelines.",
+      "Moderation may involve reviewing user reports, investigating suspected violations, and taking action against accounts or content that violate our policies.",
+      "Depending on the seriousness and frequency of the violation, moderation actions may include:"
+    ],
+    bullets: [
+      "Removing inappropriate content.",
+      "Issuing warnings to users.",
+      "Restricting access to certain features.",
+      "Limiting room participation or private messaging.",
+      "Applying temporary account suspensions.",
+      "Permanently banning accounts."
+    ],
+    ending: "Moderation decisions are made based on the available evidence and applicable platform policies. Access to moderation information is limited to authorized personnel."
+  },
+  {
+    id: "permanent-suspension",
+    title: "7. Account Suspension and Permanent Bans",
+    paragraphs: [
+      "Gumzo reserves the right to restrict or permanently terminate accounts that seriously or repeatedly violate our policies.",
+      "Examples of behavior that may result in permanent suspension include:"
+    ],
+    bullets: [
+      "Harassment, threats, or targeted abuse.",
+      "Sexual exploitation or inappropriate sexual content.",
+      "Hate speech or violent threats.",
+      "Fraud, scams, or malicious activities.",
+      "Repeated violations of Community Guidelines.",
+      "Attempting to bypass an existing suspension or ban.",
+      "Actions that seriously compromise the safety or security of other users."
+    ],
+    ending: "Serious violations may result in immediate account termination without a prior warning. Where available, users may contact Gumzo Support to request a review of a moderation decision."
+  },
+  {
+    id: "child-safety",
+    title: "8. Child Sexual Abuse and Exploitation (CSAE)",
+    paragraphs: [
+      "Gumzo has zero tolerance for child sexual abuse and exploitation (CSAE). Any activity involving the sexual exploitation of minors is strictly prohibited.",
+      "Gumzo strictly prohibits:"
+    ],
+    bullets: [
+      "Creating, uploading, sharing, or distributing child sexual abuse material (CSAM).",
+      "Sexually exploiting or attempting to exploit minors.",
+      "Engaging in grooming or predatory behavior toward minors.",
+      "Soliciting personal information, photographs, or contact details from minors for exploitative purposes.",
+      "Sexualizing minors through images, messages, usernames, or other content.",
+      "Misrepresenting age to facilitate inappropriate interactions with minors.",
+      "Encouraging, facilitating, or participating in the exploitation of children."
+    ],
+    ending: "Accounts involved in suspected child sexual exploitation may be immediately restricted or permanently terminated. We may preserve relevant information and report suspected illegal activity to appropriate authorities when required or permitted by applicable law."
+  },
+  {
+    id: "sexual-content",
+    title: "9. Sexual Content and Harassment",
+    paragraphs: [
+      "Gumzo does not allow pornographic or sexually explicit content.",
+      "Users must not send unsolicited sexual messages, share explicit images, engage in sexual harassment, or pressure other users into unwanted interactions.",
+      "If someone sends you inappropriate sexual content or makes you uncomfortable, you should block and report that user.",
+      "Reports involving sexual exploitation, threats, or other serious safety concerns may receive priority review."
+    ]
+  },
+  {
+    id: "personal-information",
+    title: "10. Protect Your Personal Information",
+    paragraphs: [
+      "Be careful about the information you share online. People you meet through chat rooms and private messages may not always be who they claim to be.",
+      "We strongly recommend that you avoid sharing sensitive personal information with people you do not know or trust.",
+      "Never share:"
+    ],
+    bullets: [
+      "Passwords or account login credentials.",
+      "Bank account details, card information, or financial passwords.",
+      "Government identification numbers or identity documents.",
+      "Your home address or other private location details.",
+      "Personal phone numbers or private email addresses with strangers.",
+      "Confidential photographs or other sensitive personal information."
+    ],
+    ending: "Gumzo representatives will never ask you to disclose your account password. Treat any suspicious communication requesting your login credentials as a potential security threat."
+  },
+  {
+    id: "suspicious-users",
+    title: "11. Recognizing and Avoiding Suspicious Users",
+    paragraphs: [
+      "Not everyone you meet online has good intentions. Some individuals may attempt to manipulate, deceive, or exploit other users.",
+      "Be cautious if someone:"
+    ],
+    bullets: [
+      "Quickly asks for your personal information or login credentials.",
+      "Sends suspicious links or asks you to visit unfamiliar websites.",
+      "Offers unrealistic rewards, gifts, or financial opportunities.",
+      "Pressures you to share private photographs or confidential information.",
+      "Threatens or manipulates you into continuing a conversation.",
+      "Attempts to move communication elsewhere for suspicious reasons.",
+      "Pretends to be a moderator, administrator, or Gumzo representative."
+    ],
+    ending: "If you notice suspicious behavior, do not share personal information or follow suspicious links. Block the user and submit a report."
+  },
+  {
+    id: "spam-security",
+    title: "12. Spam, Scams and Platform Security",
+    paragraphs: [
+      "Gumzo does not permit the use of its Services for spam, phishing, fraud, or other malicious activities.",
+      "Do not click suspicious links, download unknown files, or provide sensitive information in response to unsolicited messages.",
+      "Users must not attempt to compromise accounts, exploit application vulnerabilities, manipulate platform features, or interfere with the normal operation of Gumzo.",
+      "If you discover a potential security vulnerability or suspicious activity affecting the platform, please contact Gumzo Support rather than attempting to exploit it."
+    ]
+  },
+  {
+    id: "self-harm",
+    title: "13. Suicide and Self-Harm Prevention",
+    paragraphs: [
+      "We take messages involving suicide, self-harm, and threats of serious personal injury seriously.",
+      "If you encounter someone who appears to be considering suicide or self-harm:"
+    ],
+    bullets: [
+      "Take the situation seriously and avoid encouraging harmful behavior.",
+      "Report the account or relevant content through Gumzo.",
+      "Encourage the person to contact a trusted individual or qualified mental health professional.",
+      "If there is immediate danger, contact local emergency services.",
+      "Do not attempt to handle an emergency situation alone."
+    ],
+    ending: "Gumzo is an online communication platform, not an emergency response or mental health service. Our moderation team cannot replace professional crisis support. If you or someone else is in immediate danger, seek emergency assistance immediately."
+  },
+  {
+    id: "general-tips",
+    title: "14. General Chat Safety Tips",
+    paragraphs: [
+      "A few simple precautions can help make your experience on Gumzo safer."
+    ],
+    bullets: [
+      "Think before sharing: Avoid sharing sensitive personal information with people you have only met online.",
+      "Use blocking and reporting: Do not hesitate to block or report users who make you uncomfortable.",
+      "Be careful with links: Avoid clicking unfamiliar or suspicious URLs shared in chat rooms or private messages.",
+      "Protect your account: Use a strong, unique password and never share your login credentials.",
+      "Respect boundaries: Do not pressure other users into sharing information or continuing conversations.",
+      "Verify identities: Do not assume that someone is who they claim to be.",
+      "Keep conversations respectful: Remember that there is a real person behind every account."
+    ]
+  },
+  {
+    id: "privacy",
+    title: "15. Privacy and Safety",
+    paragraphs: [
+      "Your privacy and security are important parts of your safety on Gumzo.",
+      "We encourage users to review their account visibility, messaging, and notification preferences regularly.",
+      "For information about how Gumzo collects, uses, stores, and protects personal information, please refer to our Privacy Policy.",
+      "You should also review our Community Guidelines to understand the behavior and content standards expected from everyone using Gumzo."
+    ]
+  },
+  {
+    id: "updates",
+    title: "16. Updates to This Safety Statement",
+    paragraphs: [
+      "We may update this Safety Statement as Gumzo introduces new features, improves moderation processes, or responds to emerging safety concerns.",
+      "Changes will be published on this page with an updated effective or last updated date.",
+      "We encourage users to review this page periodically to stay informed about available safety features and recommendations."
+    ]
+  },
+  {
+    id: "contact",
+    title: "17. Contact Gumzo Support",
+    paragraphs: [
+      "If you have a safety concern, need help reporting inappropriate behavior, or want to raise a concern about a moderation decision, please contact our support team.",
+      "For urgent situations involving immediate danger, contact your local emergency services directly. Do not rely on Gumzo Support as an emergency response service."
+    ]
+  }
+];
+---
+
+<MainLayout
+  title="Gumzo | Online Chat Safety & Security"
+  description="Learn how to stay safe on Gumzo with our Safety & Security guidelines. Discover tips for protecting your privacy, reporting inappropriate behaviour, blocking users, and enjoying safer online conversations."
+>
+  <section class="min-h-screen bg-dark-3 px-4 py-12 sm:px-6 lg:px-10">
+
+    <div class="w-full">
+
+      <!-- Page Heading -->
+      <div class="mb-10 border-b border-white/10 pb-8">
+
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+          Safety & Security
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-400">
+          Your safety matters to us. Learn about the tools, policies,
+          and recommendations that help protect you while connecting
+          and communicating with others on Gumzo.
+        </p>
+
+        <p class="mt-4 text-xs text-gray-500">
+          Effective Date: {effectiveDate}
+        </p>
+
+      </div>
+
+      <!-- Introduction -->
+      <div class="mb-10 space-y-4 text-sm leading-7 text-gray-400">
+
+        <p>
+          Gumzo combines platform safety features, user reporting,
+          and moderation processes to help maintain a respectful
+          and secure community.
+        </p>
+
+        <p>
+          All users are expected to follow our Terms of Service,
+          Privacy Policy, and Community Guidelines.
+        </p>
+
+        <p>
+          Safety is a shared responsibility. We encourage every user
+          to use the available safety tools and report behavior that
+          may put themselves or others at risk.
+        </p>
+
+      </div>
+
+      <!-- Safety Content -->
+      <div class="w-full space-y-9">
+
+        {sections.map((section) => (
+          <article id={section.id} class="scroll-mt-24">
+
+            <h2 class="text-lg font-semibold text-white sm:text-xl">
+              {section.title}
+            </h2>
+
+            <div class="mt-3 space-y-4 text-sm leading-7 text-gray-400">
+
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+
+              {section.bullets && (
+                <ul class="list-disc space-y-2 pl-6 marker:text-primary">
+                  {section.bullets.map((item) => (
+                    <li class="pl-1">{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.ending && (
+                <p>{section.ending}</p>
+              )}
+
+            </div>
+
+          </article>
+        ))}
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-12 border-t border-white/10 pt-8">
+
+        <h2 class="text-lg font-semibold text-white">
+          Need Help With a Safety Concern?
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          If you encounter inappropriate behavior, suspicious activity,
+          or have a concern about your safety on Gumzo, please contact
+          our support team. We appreciate your help in keeping our
+          community safe.
+        </p>
+
+        <a
+          href="/support"
+          class="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          Contact Gumzo Support →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+</MainLayout>

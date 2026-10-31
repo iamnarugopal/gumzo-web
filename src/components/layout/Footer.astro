@@ -1,0 +1,125 @@
+
+---
+const playStoreUrl = "YOUR_GOOGLE_PLAY_STORE_URL";
+
+const policyLinks = [
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Community Guidelines", href: "/guidelines" },
+  { label: "Safety & Security", href: "/safety" },
+  { label: "Law Enforcement Requests", href: "/law-enforcement" },
+  { label: "Contact Support", href: "/support" },
+];
+---
+
+<footer class="bg-dark-3">
+
+  <!-- Download Section -->
+  <section
+    id="download"
+    class="border-t border-white/5 px-5 py-16 text-center sm:py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+
+      <span class="mb-4 inline-block text-xs font-semibold uppercase tracking-[3px] text-primary">
+        Your next conversation awaits
+      </span>
+
+      <h2 class="text-4xl text-white sm:text-5xl md:text-6xl">
+        Ready to join Gumzo?
+      </h2>
+
+      <p class="mx-auto mt-6 max-w-3xl text-sm leading-7 text-gray-400 sm:text-base">
+        Discover new communities, meet interesting people and
+        enjoy conversations that bring people closer.
+        Download Gumzo and find your place in the community.
+      </p>
+
+      <!-- Google Play Only -->
+      <div class="mt-9 flex justify-center">
+        <a
+          href={playStoreUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Get Gumzo on Google Play"
+          class="group inline-flex items-center transition duration-300 hover:-translate-y-1 "
+        >
+          <img
+        src="/GetItOnGooglePlay.svg"
+        alt="Gumzo"
+        width="270"
+        height="80"
+        class="h-12 w-auto object-contain sm:h-20"
+      />
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Bottom Footer Navigation -->
+  <section class="border-t border-white/10 bg-dark-2">
+
+    <div class="mx-auto max-w-7xl px-5 py-7 lg:px-8">
+
+      <!-- Policy Links -->
+      <nav aria-label="Footer navigation">
+        <ul class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+
+          {policyLinks.map((link, index) => (
+            <li class="flex items-center gap-4">
+              <a
+                href={link.href}
+                class="text-xs text-gray-400 transition hover:text-primary sm:text-sm"
+              >
+                {link.label}
+              </a>
+
+              {index !== policyLinks.length - 1 && (
+                <span
+                  class="h-5 w-px bg-white/20"
+                  aria-hidden="true"
+                ></span>
+              )}
+            </li>
+          ))}
+
+        </ul>
+      </nav>
+
+      <!-- Copyright -->
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-400">
+          <span class="font-semibold text-gray-300">Gumzo</span>
+          © {new Date().getFullYear()}. All rights reserved.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Back to Top -->
+  <button
+    id="back-to-top"
+    type="button"
+    aria-label="Back to top"
+    class="fixed right-5 bottom-5 z-40 flex size-11 items-center justify-center rounded-lg border border-white/10 bg-dark-1 text-xl text-white shadow-lg transition hover:bg-primary"
+  >
+    ↑
+  </button>
+
+</footer>
+
+<script>
+  const backToTop = document.querySelector<HTMLButtonElement>(
+    "#back-to-top"
+  );
+
+  backToTop?.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+</script>

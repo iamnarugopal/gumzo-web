@@ -1,0 +1,350 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const sections = [
+  {
+    id: "agreement",
+    title: "1. Agreement to These Terms",
+    paragraphs: [
+      "Welcome to Gumzo. These Terms of Service govern your access to and use of the Gumzo website, mobile applications, chat rooms, messaging features, and other services we provide (collectively, the \"Services\").",
+      "By creating an account, accessing, or using Gumzo, you acknowledge that you have read, understood, and agree to these Terms and our Privacy Policy and Community Guidelines.",
+      "If you do not agree with these Terms, you must stop using the Services."
+    ]
+  },
+  {
+    id: "eligibility",
+    title: "2. Eligibility",
+    paragraphs: [
+      "You must be at least 18 years old to create an account and use Gumzo. By using the Services, you confirm that you meet this age requirement and have the legal capacity to agree to these Terms.",
+      "You may not use Gumzo if applicable laws prohibit you from doing so or if your account has previously been suspended or terminated for serious violations, unless we have expressly permitted you to return."
+    ]
+  },
+  {
+    id: "account",
+    title: "3. Account Registration and Security",
+    paragraphs: [
+      "Certain Gumzo features require you to create an account. During registration, you may be asked to provide information such as a username and other account details.",
+      "You agree to provide accurate and current information and keep your account details up to date. You are responsible for maintaining the security of your login credentials and for activities carried out through your account.",
+      "You must notify us promptly if you suspect unauthorized access to your account. Gumzo is not responsible for losses resulting from your failure to protect your account, except where applicable law provides otherwise."
+    ],
+    bullets: [
+      "Do not create an account using false or misleading information.",
+      "Do not impersonate another person, organization, or Gumzo representative.",
+      "Do not use usernames that infringe another person's rights or contain abusive, hateful, sexually explicit, or otherwise inappropriate material.",
+      "Do not share, sell, rent, or transfer your account to another person.",
+      "Do not create multiple accounts to evade restrictions, bans, or moderation actions."
+    ]
+  },
+  {
+    id: "services",
+    title: "4. Gumzo Services and Features",
+    paragraphs: [
+      "Gumzo is a social communication platform that allows users to connect and interact through public chat rooms, profiles, avatars, messaging, and other interactive features.",
+      "Depending on availability, your account and eligibility, Gumzo may also offer features such as room participation, profile customization, avatar enhancements, virtual gifts, VIP benefits, and other optional experiences.",
+      "We may introduce, modify, limit, suspend, or discontinue features as the platform develops. Some features may have additional conditions or eligibility requirements."
+    ]
+  },
+  {
+    id: "user-content",
+    title: "5. User Content and Responsibilities",
+    paragraphs: [
+      "\"User Content\" means any material you submit, upload, share, display, or otherwise make available through Gumzo. This includes messages, usernames, profile information, avatars, images, and other content.",
+      "You retain ownership of the User Content that you own. Gumzo does not claim ownership of your original content simply because you share it through the Services.",
+      "By submitting User Content, you grant Gumzo a non-exclusive, worldwide, royalty-free license to host, store, reproduce, display, transmit, and technically process that content solely as reasonably necessary to operate, maintain, secure, and improve the Services.",
+      "This license continues only for as long as reasonably necessary for these purposes, including applicable backup, legal, and security requirements. It does not give Gumzo ownership of your content.",
+      "You confirm that you own the content you share or have obtained all necessary permissions to use and share it. You are responsible for ensuring that your content does not violate applicable laws or the rights of others."
+    ]
+  },
+  {
+    id: "conduct",
+    title: "6. Acceptable Use and Prohibited Activities",
+    paragraphs: [
+      "Gumzo aims to provide a welcoming environment where people can communicate and participate responsibly. By using the platform, you agree to treat other users with respect and follow our Community Guidelines.",
+      "You must not use Gumzo to:"
+    ],
+    bullets: [
+      "Harass, threaten, bully, intimidate, or repeatedly target another user.",
+      "Share sexually explicit, exploitative, abusive, or otherwise prohibited content.",
+      "Promote violence, hatred, discrimination, or illegal activities.",
+      "Share another person's private or confidential information without permission.",
+      "Impersonate another user, public figure, organization, or Gumzo staff member.",
+      "Send spam, scams, misleading links, unsolicited advertisements, or fraudulent messages.",
+      "Exploit, manipulate, or interfere with chat rooms, avatars, gifts, rankings, or other platform features.",
+      "Attempt to access another user's account or restricted areas of Gumzo without authorization.",
+      "Use bots, scripts, automation, or other tools to disrupt or abuse the Services.",
+      "Reverse-engineer, decompile, copy, or attempt to extract the source code of Gumzo, except where applicable law expressly permits it.",
+      "Upload malware or attempt to compromise the security or availability of the Services.",
+      "Use Gumzo in any way that violates applicable laws or regulations."
+    ]
+  },
+  {
+    id: "messaging",
+    title: "7. Chat Rooms and Private Messaging",
+    paragraphs: [
+      "Gumzo provides public chat rooms and, where available, private messaging features to help users communicate.",
+      "Messages and other content shared in public rooms may be visible to other participants. You should not share passwords, financial information, personal identification details, or other sensitive information in public conversations.",
+      "Private messaging is intended for personal communication. However, you should not assume that any digital communication is completely secure or that recipients will keep messages confidential.",
+      "We may restrict messaging, room access, or other communication features when necessary to protect users, investigate reports, enforce our policies, or comply with legal obligations."
+    ]
+  },
+  {
+    id: "moderation",
+    title: "8. Reporting, Blocking and Moderation",
+    paragraphs: [
+      "Gumzo provides safety and moderation features that allow users to report inappropriate behavior, block other users, and help maintain a safer community.",
+      "We may review reports, investigate suspected violations, and take action when we believe it is reasonably necessary to protect the platform or its users.",
+      "Depending on the circumstances and seriousness of a violation, actions may include:"
+    ],
+    bullets: [
+      "Removing content or restricting its visibility.",
+      "Issuing warnings or temporary restrictions.",
+      "Limiting access to chat rooms or messaging features.",
+      "Temporarily suspending an account.",
+      "Permanently banning an account.",
+      "Taking other appropriate measures to protect Gumzo and its users."
+    ],
+    ending: "Moderation decisions may be based on reports, available evidence, automated detection, or other relevant information. Where available, you may contact Gumzo Support to request a review or appeal of a moderation decision. We do not guarantee that every report will result in action or that every appeal will be successful."
+  },
+  {
+    id: "vip",
+    title: "9. VIP Benefits, Virtual Gifts and Optional Features",
+    paragraphs: [
+      "Gumzo may offer optional paid features, VIP benefits, virtual gifts, avatar customizations, or other digital experiences.",
+      "Where purchases are available, applicable prices, payment conditions, subscription details, and any additional terms will be presented before or during the purchase process.",
+      "Unless expressly stated otherwise:"
+    ],
+    bullets: [
+      "Virtual gifts and digital items are platform features and are not cash, bank deposits, or financial instruments.",
+      "Virtual items do not have cash value and cannot be exchanged for money unless expressly permitted by Gumzo.",
+      "Digital benefits are generally personal to the account for which they were purchased or granted.",
+      "You may not sell, transfer, trade, or exploit virtual items outside authorized Gumzo features.",
+      "Promotional benefits may be subject to additional eligibility, duration, and usage conditions."
+    ],
+    ending: "Purchases, renewals, cancellations, and refunds are subject to the applicable payment provider's conditions and mandatory consumer protection laws. Nothing in these Terms limits any refund or cancellation rights that cannot legally be excluded."
+  },
+  {
+    id: "intellectual-property",
+    title: "10. Intellectual Property Rights",
+    paragraphs: [
+      "Gumzo and its original software, application design, branding, logos, graphics, interface elements, features, and other platform materials are owned by or licensed to Gumzo and are protected by applicable intellectual property laws.",
+      "Subject to these Terms, we grant you a limited, personal, non-exclusive, non-transferable, and revocable license to access and use Gumzo for its intended purposes.",
+      "You may not copy, reproduce, redistribute, modify, sell, publicly exploit, or create derivative works from Gumzo's proprietary materials without prior written permission, except where permitted by applicable law.",
+      "All trademarks, names, logos, and other brand elements remain the property of their respective owners."
+    ]
+  },
+  {
+    id: "copyright",
+    title: "11. Copyright and Intellectual Property Complaints",
+    paragraphs: [
+      "Gumzo respects the intellectual property rights of others and expects users to do the same.",
+      "If you believe that content available through Gumzo infringes your copyright, trademark, or other intellectual property rights, you may submit a complaint through our Contact Support page.",
+      "Please include sufficient information to help us review your complaint, such as:"
+    ],
+    bullets: [
+      "Your name and contact information.",
+      "A description of the copyrighted work or intellectual property you believe has been infringed.",
+      "The location or details of the content in question.",
+      "An explanation of why you believe the content violates your rights.",
+      "Any supporting documents or evidence demonstrating your ownership or authority to act."
+    ],
+    ending: "We may remove or restrict access to disputed content, request additional information, and take appropriate action against accounts that repeatedly violate intellectual property rights, subject to applicable law."
+  },
+  {
+    id: "third-party",
+    title: "12. Third-Party Services and Links",
+    paragraphs: [
+      "Gumzo may use third-party services or contain links to external websites, applications, payment providers, or other resources.",
+      "These third-party services are operated independently and may have their own terms, privacy policies, and security practices.",
+      "We are not responsible for the availability, content, policies, or practices of third-party services that we do not control. Your use of those services is subject to their applicable terms and conditions."
+    ]
+  },
+  {
+    id: "availability",
+    title: "13. Service Availability and Changes",
+    paragraphs: [
+      "We work to keep Gumzo available and functioning properly, but we cannot guarantee uninterrupted, error-free, or continuous access.",
+      "Services may occasionally be unavailable due to maintenance, updates, technical issues, security incidents, network problems, or circumstances beyond our reasonable control.",
+      "We reserve the right to change, suspend, restrict, or discontinue any part of the Services where reasonably necessary, including for maintenance, security, legal compliance, or platform improvements."
+    ]
+  },
+  {
+    id: "termination",
+    title: "14. Account Suspension and Termination",
+    paragraphs: [
+      "You may stop using Gumzo at any time and may request account deletion through the available account settings or Contact Support.",
+      "We may suspend, restrict, or terminate your access if you violate these Terms, Community Guidelines, or applicable law, or if your activity creates a security, safety, legal, or operational risk.",
+      "Where reasonably possible, we may provide notice or an opportunity to appeal. However, immediate action may be necessary in serious cases involving threats, exploitation, fraud, security risks, or other urgent concerns.",
+      "Following account termination, access to certain features and content may no longer be available. We may retain limited information where required or permitted by law, or where necessary for security, dispute resolution, and legitimate operational purposes.",
+      "Provisions that by their nature should continue after termination, including intellectual property, liability limitations, and dispute-related provisions, will remain applicable."
+    ]
+  },
+  {
+    id: "disclaimers",
+    title: "15. Disclaimers",
+    paragraphs: [
+      "Gumzo is provided on an \"as available\" and \"as is\" basis to the maximum extent permitted by applicable law.",
+      "We do not guarantee that the Services will always be available, secure, uninterrupted, or free from errors, defects, or harmful components.",
+      "We do not endorse or guarantee the accuracy, reliability, or suitability of content shared by users. Interactions with other users take place at your own discretion and responsibility.",
+      "We do not guarantee that every user will comply with our policies or that all inappropriate activity will be detected or prevented."
+    ]
+  },
+  {
+    id: "liability",
+    title: "16. Limitation of Liability",
+    paragraphs: [
+      "To the maximum extent permitted by applicable law, Gumzo and its operators, employees, and service providers will not be liable for indirect, incidental, special, punitive, or consequential losses arising from your use of or inability to use the Services.",
+      "This includes, where legally permissible, loss of data, loss of profits, business interruption, loss of goodwill, and losses arising from user-generated content or third-party services.",
+      "Nothing in these Terms excludes or limits liability for fraud, intentional misconduct, gross negligence, death or personal injury where such exclusion is prohibited, or any other liability that cannot legally be excluded or limited.",
+      "Your statutory rights under applicable consumer protection and other mandatory laws remain unaffected."
+    ]
+  },
+  {
+    id: "indemnification",
+    title: "17. Responsibility for Claims",
+    paragraphs: [
+      "To the extent permitted by applicable law, you agree to be responsible for claims, losses, and reasonable expenses arising directly from your unlawful use of Gumzo, your material violation of these Terms, or your infringement of another person's rights.",
+      "Nothing in this section requires you to indemnify Gumzo for losses caused by Gumzo's own negligence, misconduct, or legal violations where such an obligation would be prohibited by applicable law."
+    ]
+  },
+  {
+    id: "privacy",
+    title: "18. Privacy and Personal Information",
+    paragraphs: [
+      "Your use of Gumzo is also governed by our Privacy Policy, which explains how we collect, use, store, and protect personal information.",
+      "By using Gumzo, you acknowledge that your information will be handled in accordance with that policy and applicable data protection laws.",
+      "Please review our Privacy Policy to understand your privacy choices and rights."
+    ]
+  },
+  {
+    id: "legal",
+    title: "19. Legal Compliance and Requests",
+    paragraphs: [
+      "You agree to use Gumzo in compliance with all applicable laws and regulations.",
+      "We may preserve, disclose, or provide relevant information in response to valid legal requests, court orders, or lawful demands from authorized government or law enforcement authorities, where required or permitted by applicable law.",
+      "We may also take appropriate steps to protect users, investigate suspected unlawful activity, and prevent harm to Gumzo or others."
+    ]
+  },
+  {
+    id: "changes",
+    title: "20. Changes to These Terms",
+    paragraphs: [
+      "We may update these Terms from time to time to reflect changes in our Services, platform features, legal requirements, or operational practices.",
+      "When we make material changes, we may provide notice through the website, mobile application, or other appropriate communication channels.",
+      "The updated Terms will be published with a revised effective date. Your continued use of Gumzo after the updated Terms become effective means that you accept the revised Terms, to the extent permitted by applicable law.",
+      "If you do not agree with the updated Terms, you should stop using the Services."
+    ]
+  },
+  {
+    id: "governing-law",
+    title: "21. Governing Law and Disputes",
+    paragraphs: [
+      "These Terms will be interpreted in accordance with the laws applicable to the legal entity operating Gumzo, subject to mandatory consumer protection and other applicable legal requirements.",
+      "Any disputes arising from your use of Gumzo will be addressed through the appropriate legal processes and competent courts, subject to applicable law.",
+      "Nothing in this section prevents you from exercising any legal rights or remedies available to you under mandatory applicable laws."
+    ]
+  },
+  {
+    id: "general",
+    title: "22. General Provisions",
+    paragraphs: [
+      "These Terms, together with our Privacy Policy and Community Guidelines, form the agreement between you and Gumzo regarding your use of the Services.",
+      "If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will continue to apply to the extent permitted by law.",
+      "Our failure to enforce any provision does not constitute a waiver of our right to enforce it later.",
+      "You may not transfer your rights or obligations under these Terms without our prior written permission. We may transfer or assign our rights and obligations as part of a business restructuring, merger, acquisition, or transfer of operations, subject to applicable law."
+    ]
+  },
+];
+
+const effectiveDate = "31 October 2026";
+---
+
+<MainLayout
+  title="Gumzo | Terms of Service & User Agreement"
+  description="Read Gumzo's Terms of Service to understand the rules, conditions, and responsibilities that apply when using our chat rooms, messaging, accounts, and community features."
+>
+  <section class="min-h-screen bg-dark-3 px-4 py-12 sm:px-6 lg:px-10">
+
+    <div class="w-full">
+
+      <!-- Page Heading -->
+      <div class="mb-10 border-b border-white/10 pb-8">
+
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+          Terms of Service
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-400">
+          Welcome to Gumzo. These Terms of Service explain the rules,
+          responsibilities, and conditions that apply when you access
+          or use our website, mobile applications, and services.
+          Please read them carefully.
+        </p>
+
+        <p class="mt-4 text-xs text-gray-500">
+          Effective Date: {effectiveDate}
+        </p>
+
+      </div>
+
+      <!-- Terms Content -->
+      <div class="w-full space-y-9">
+
+        {sections.map((section) => (
+          <article id={section.id} class="scroll-mt-24">
+
+            <h2 class="text-lg font-semibold text-white sm:text-xl">
+              {section.title}
+            </h2>
+
+            <div class="mt-3 space-y-4 text-sm leading-7 text-gray-400">
+
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+
+              {section.bullets && (
+                <ul class="list-disc space-y-2 pl-6 marker:text-primary">
+                  {section.bullets.map((item) => (
+                    <li class="pl-1">{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.ending && (
+                <p>{section.ending}</p>
+              )}
+
+            </div>
+
+          </article>
+        ))}
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-12 border-t border-white/10 pt-8">
+
+        <h2 class="text-lg font-semibold text-white">
+          Questions About These Terms?
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          If you have questions about these Terms or need assistance
+          with Gumzo, please contact our support team.
+        </p>
+
+        <a
+          href="/support"
+          class="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          Contact Gumzo Support →
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </section>
+</MainLayout>

@@ -1,0 +1,336 @@
+
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const effectiveDate = "31 October 2026";
+
+const sections = [
+  {
+    id: "purpose",
+    title: "1. Guidelines for Law Enforcement",
+    paragraphs: [
+      "These guidelines are intended for authorized law enforcement officials, government agencies, and other legally authorized authorities seeking information relating to Gumzo user accounts.",
+      "Gumzo respects user privacy and takes the handling of personal information seriously. We may cooperate with legitimate law enforcement investigations and respond to valid legal requests in accordance with applicable laws.",
+      "Every request is reviewed to determine whether it comes from an authorized authority, identifies the relevant information, and satisfies applicable legal requirements.",
+      "We do not provide user information simply because it has been requested. Disclosure depends on the nature of the request, applicable law, and the information available to us."
+    ]
+  },
+  {
+    id: "about",
+    title: "2. About Gumzo",
+    paragraphs: [
+      "Gumzo is a social communication platform that allows users to connect and interact through public chat rooms, user profiles, avatars, private messaging, and other community features.",
+      "Users must be at least 18 years old to create an account and use Gumzo.",
+      "Gumzo provides reporting, blocking, and moderation features to help maintain a safer community."
+    ]
+  },
+  {
+    id: "safety",
+    title: "3. Safety and Moderation",
+    paragraphs: [
+      "Gumzo maintains moderation processes to address violations of its Terms of Service, Privacy Policy, Community Guidelines, and Safety Statement.",
+      "We may investigate reports, restrict accounts, remove inappropriate content, and take other appropriate actions to protect users and the platform.",
+      "For more information about our safety practices and available user protection features, please review our Safety & Security page."
+    ]
+  },
+  {
+    id: "information",
+    title: "4. Account Information That May Be Available",
+    paragraphs: [
+      "Depending on the information collected, retained, and available at the time of a request, Gumzo may maintain certain information associated with user accounts.",
+      "Potential categories of information may include:"
+    ],
+    bullets: [
+      "Account identifiers, including internal account IDs and usernames.",
+      "Email addresses associated with user accounts, where provided.",
+      "Account registration and account-related timestamps.",
+      "Profile information, including avatar and profile images.",
+      "Chat room participation and room membership information.",
+      "User-generated content and communication records, where retained and available.",
+      "User reports, moderation records, and account restrictions.",
+      "Account preferences and notification settings.",
+      "Technical information, such as IP addresses, device-related information, and application activity, where collected and retained.",
+      "Push notification tokens and related settings, where applicable."
+    ],
+    ending: "The information listed above describes categories that may be processed by Gumzo. It does not guarantee that every category is collected, retained, or available for every account. Information provided by users is not necessarily independently verified by Gumzo."
+  },
+  {
+    id: "legal-process",
+    title: "5. Legal Process Requirements",
+    paragraphs: [
+      "Gumzo reviews requests for non-public user information in accordance with applicable laws and legal requirements.",
+      "Depending on the jurisdiction, type of information requested, and nature of the investigation, appropriate legal documentation may include:"
+    ],
+    bullets: [
+      "A valid subpoena or equivalent legally authorized demand.",
+      "A court order issued by a competent court.",
+      "A search warrant or equivalent judicial authorization.",
+      "Other legally valid requests issued by an authorized government authority."
+    ],
+    ending: "The legal process required depends on the information being requested and the applicable legal framework. Gumzo may reject requests that do not satisfy applicable legal requirements or seek clarification or additional documentation before responding."
+  },
+  {
+    id: "request-details",
+    title: "6. Information Required in a Legal Request",
+    paragraphs: [
+      "To help us review and process a request efficiently, law enforcement officials should provide sufficient information to identify the relevant account and explain the legal basis for the request.",
+      "Requests should include:"
+    ],
+    bullets: [
+      "The name of the issuing law enforcement agency or government authority.",
+      "The name, official designation, and identification details of the requesting official.",
+      "An official email address and direct contact information.",
+      "The relevant legal authority or documentation supporting the request.",
+      "The Gumzo username and internal user ID, if known.",
+      "The email address associated with the account, if known.",
+      "A clear description of the specific information being requested.",
+      "The relevant date and time range, including the applicable time zone.",
+      "Relevant message details, room information, or screenshots, where available.",
+      "The purpose of the investigation and any applicable restrictions on disclosure."
+    ],
+    ending: "Requests should be specific and limited to information relevant to the investigation. Broad, unclear, or insufficiently identified requests may require clarification or may not be processed."
+  },
+  {
+    id: "preservation",
+    title: "7. Data Preservation Requests",
+    paragraphs: [
+      "Law enforcement authorities may request the preservation of specific account information that may be relevant to an investigation.",
+      "Preservation requests should be submitted in writing through an official government or law enforcement channel and should include:"
+    ],
+    bullets: [
+      "The requesting agency's official name and contact information.",
+      "The requesting official's name, designation, and signature or other appropriate authentication.",
+      "The relevant Gumzo username or account identifier.",
+      "A description of the information that needs to be preserved.",
+      "The relevant date and time period.",
+      "The reason preservation is necessary.",
+      "The applicable legal authority and any required supporting documentation."
+    ],
+    ending: "Gumzo will review preservation requests under applicable law and determine whether the requested information can and should be preserved. Preservation is limited to information available at the time of the request and does not guarantee that deleted, expired, or otherwise unavailable information can be recovered. Any preservation period or extension will be determined in accordance with applicable legal requirements."
+  },
+  {
+    id: "emergency",
+    title: "8. Emergency Disclosure Requests",
+    paragraphs: [
+      "Gumzo recognizes that certain situations require urgent attention, particularly when there is a credible threat of death, serious physical injury, or an immediate risk to someone's safety.",
+      "In appropriate circumstances, we may disclose relevant information to authorized law enforcement or government authorities without waiting for standard legal process, where such disclosure is permitted by applicable law.",
+      "Emergency requests should clearly explain:"
+    ],
+    bullets: [
+      "The nature of the emergency and the immediate threat involved.",
+      "The person or individuals believed to be at risk.",
+      "Why death or serious physical harm may occur.",
+      "The relevant Gumzo account, username, or message information.",
+      "The specific information requested and why it is necessary.",
+      "Why the request cannot wait for ordinary legal procedures.",
+      "The requesting official's name, agency, official contact details, and authorization."
+    ],
+    ending: "Emergency requests are reviewed individually. Any disclosure will be limited to information that we believe is appropriate and legally permitted in the circumstances. Submitting an emergency request does not guarantee disclosure."
+  },
+  {
+    id: "retention",
+    title: "9. Data Retention and Availability",
+    paragraphs: [
+      "Gumzo retains different categories of information for different periods depending on the purpose for which the information is processed, applicable legal requirements, security needs, and operational considerations.",
+      "The availability of information may depend on:"
+    ],
+    bullets: [
+      "Whether the relevant account remains active.",
+      "Whether the information is still stored in our systems.",
+      "Whether the user has deleted the relevant content or account.",
+      "Applicable data retention and deletion practices.",
+      "Whether the information is available through our service providers.",
+      "Whether a valid preservation obligation applies."
+    ],
+    ending: "Gumzo does not guarantee the availability of historical messages, deleted content, account activity, or other information for any particular period. We cannot provide information that is no longer available to us."
+  },
+  {
+    id: "user-notification",
+    title: "10. Notification to Affected Users",
+    paragraphs: [
+      "Where legally permitted, Gumzo may notify an affected user when we receive a request for their account information.",
+      "However, we may delay or withhold notification where:"
+    ],
+    bullets: [
+      "The request includes a valid legal restriction on notification.",
+      "Notification is prohibited by applicable law or a competent authority.",
+      "We reasonably believe notification could compromise an investigation.",
+      "Notification could create a risk to someone's safety or security.",
+      "Other applicable legal requirements prevent disclosure of the request."
+    ],
+    ending: "Decisions regarding user notification are made on a case-by-case basis and in accordance with applicable law."
+  },
+  {
+    id: "disclosure",
+    title: "11. Scope of Information Disclosure",
+    paragraphs: [
+      "Gumzo evaluates the scope of information requested before making any disclosure.",
+      "Where disclosure is legally required or permitted, we aim to provide only information relevant to the request and appropriate under the applicable legal process.",
+      "We may request clarification, limit the scope of a request, or decline to provide information where the request is invalid, overly broad, unsupported, or otherwise inconsistent with applicable law.",
+      "Gumzo does not guarantee that all requested information will be available or disclosed."
+    ]
+  },
+  {
+    id: "testimony",
+    title: "12. Testimony and Legal Proceedings",
+    paragraphs: [
+      "Requests for testimony, witness appearances, certifications, or other assistance in legal proceedings must be submitted through appropriate legal channels.",
+      "Gumzo will review such requests based on applicable laws, jurisdictional requirements, and the nature of the requested assistance.",
+      "We do not guarantee the availability of employees or representatives for testimony or expert assistance."
+    ]
+  },
+  {
+    id: "costs",
+    title: "13. Costs Associated with Legal Requests",
+    paragraphs: [
+      "Responding to certain legal requests may require significant administrative, technical, and operational resources.",
+      "Where permitted by applicable law, Gumzo may seek reimbursement for reasonable costs incurred in identifying, reviewing, preserving, compiling, and providing information in response to legal requests.",
+      "Any applicable reimbursement requirements will be communicated to the requesting authority where appropriate and in accordance with applicable law."
+    ]
+  },
+  {
+    id: "international",
+    title: "14. International Law Enforcement Requests",
+    paragraphs: [
+      "Gumzo may receive legal requests from authorities located in different countries and jurisdictions.",
+      "Requests originating outside the jurisdiction in which Gumzo operates may be subject to additional legal requirements, including applicable international cooperation procedures.",
+      "We will review such requests based on the applicable legal framework and may require appropriate authorization or formal legal cooperation before disclosing non-public user information."
+    ]
+  },
+  {
+    id: "non-law-enforcement",
+    title: "15. Requests from Non-Law Enforcement Individuals",
+    paragraphs: [
+      "These guidelines are intended for authorized law enforcement and government authorities.",
+      "Private individuals, users, businesses, and other organizations should not use this process to request another person's non-public account information.",
+      "If you are a Gumzo user and have a privacy concern, account-related question, or safety issue, please contact our support team through the Contact Support page.",
+      "If you believe a crime has occurred, contact your local law enforcement agency and provide them with any relevant information available to you."
+    ]
+  },
+  {
+    id: "contact",
+    title: "16. Contact and Submission of Requests",
+    paragraphs: [
+      "Authorized law enforcement officials seeking to submit legal requests, preservation requests, or emergency requests should contact Gumzo through our official Contact Support channel to obtain the appropriate submission instructions.",
+      "Please clearly identify the request as a law enforcement matter and provide the issuing agency's official contact information.",
+      "Do not include highly sensitive investigative information or confidential documents in a general support submission unless an appropriate secure submission method has been provided.",
+      "Receipt of a communication does not mean that the request has been accepted, validated, or approved. Gumzo reserves the right to raise applicable legal objections, request additional information, or decline requests that do not satisfy legal requirements."
+    ]
+  }
+];
+---
+
+<MainLayout
+  title="Gumzo | Law Enforcement Requests & Legal Information"
+  description="Learn how law enforcement agencies can submit legal requests to Gumzo, including information requests, data preservation, and emergency disclosure requests."
+>
+  <section class="min-h-screen bg-dark-3 px-4 py-12 sm:px-6 lg:px-10">
+
+    <div class="w-full">
+
+      <!-- Page Heading -->
+      <div class="mb-10 border-b border-white/10 pb-8">
+
+        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+          Law Enforcement Requests
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-gray-400">
+          Information for authorized law enforcement officials and
+          government agencies seeking user account information,
+          data preservation, or assistance with emergency situations
+          involving Gumzo.
+        </p>
+
+        <p class="mt-4 text-xs text-gray-500">
+          Effective Date: {effectiveDate}
+        </p>
+
+      </div>
+
+      <!-- Introduction -->
+      <div class="mb-10 space-y-4 text-sm leading-7 text-gray-400">
+
+        <p>
+          Gumzo respects user privacy while recognizing the importance
+          of cooperating with legitimate law enforcement investigations.
+        </p>
+
+        <p>
+          We review requests carefully and handle personal information
+          in accordance with applicable legal requirements. These
+          guidelines explain the information that may be available,
+          the documentation required, and the process for submitting
+          legal and emergency requests.
+        </p>
+
+        <p>
+          These guidelines apply to authorized law enforcement officials
+          and government agencies. They do not create a guarantee that
+          requested information will be available or disclosed.
+        </p>
+
+      </div>
+
+      <!-- Law Enforcement Content -->
+      <div class="w-full space-y-9">
+
+        {sections.map((section) => (
+          <article id={section.id} class="scroll-mt-24">
+
+            <h2 class="text-lg font-semibold text-white sm:text-xl">
+              {section.title}
+            </h2>
+
+            <div class="mt-3 space-y-4 text-sm leading-7 text-gray-400">
+
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+
+              {section.bullets && (
+                <ul class="list-disc space-y-2 pl-6 marker:text-primary">
+                  {section.bullets.map((item) => (
+                    <li class="pl-1">{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.ending && (
+                <p>{section.ending}</p>
+              )}
+
+            </div>
+
+          </article>
+        ))}
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-12 border-t border-white/10 pt-8">
+
+        <h2 class="text-lg font-semibold text-white">
+          Law Enforcement Inquiries
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          Authorized law enforcement officials requiring assistance
+          with legal requests, data preservation, or emergency matters
+          should contact Gumzo through our official support channel
+          to obtain the appropriate submission instructions.
+        </p>
+
+        <a
+          href="/support"
+          class="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          Contact Gumzo Support →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+</MainLayout>
