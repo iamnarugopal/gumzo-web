@@ -1,0 +1,139 @@
+
+---
+import { LuInfo, LuShieldCheck, LuTrash2 } from "react-icons/lu";
+import DeleteAccountForm from "../components/account/DeleteAccountForm";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout
+  title="Gumzo | Delete Account"
+  description="Request permanent deletion of your Gumzo account and associated personal data. Learn how account deletion works and what information will be removed."
+>
+  <main class="relative isolate min-h-screen overflow-hidden bg-dark-3 px-5 py-16 sm:py-20">
+    <div class="pointer-events-none absolute -top-40 left-1/2 -z-10 size-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px]"></div>
+
+    <div class="mx-auto max-w-2xl">
+      {/* Page heading */}
+      <div class="mb-8 text-center">
+        <div class="mx-auto mb-6 flex size-16 items-center justify-center rounded-2xl border border-red-500/25 bg-red-500/10 text-red-400">
+          <LuTrash2 size={32} />
+        </div>
+
+        <span class="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary">
+          <LuShieldCheck size={14} />
+          Account Management
+        </span>
+
+        <h1 class="mt-6 text-4xl leading-tight text-white sm:text-5xl">
+          Delete Your <span class="text-primary">Account</span>
+        </h1>
+
+        <p class="mt-5 text-sm leading-7 text-gray-400 sm:text-base">
+          We're sorry to see you go. If you no longer wish to use Gumzo,
+          you can request permanent deletion of your account and
+          associated personal information.
+        </p>
+
+        <p class="mt-4 text-sm leading-7 text-gray-400">
+          You can also delete your account directly from the Gumzo app
+          through your account settings.
+        </p>
+      </div>
+
+      {/* Important information */}
+      <div class="mb-6 rounded-2xl border border-yellow-500/20 bg-yellow-500/5 p-5">
+        <div class="flex items-start gap-3">
+          <LuInfo className="mt-1 shrink-0 text-yellow-400" size={20} />
+
+          <div>
+            <h2 class="font-semibold text-white">
+              Before you continue
+            </h2>
+
+            <p class="mt-2 text-sm leading-6 text-gray-400">
+              Account deletion is permanent and cannot be undone.
+              Make sure you understand what happens before submitting
+              your request.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* What gets deleted */}
+      <div class="mb-6 rounded-2xl border border-white/10 bg-dark-2 p-6">
+        <h2 class="text-lg font-semibold text-white">
+          What happens when you delete your account?
+        </h2>
+
+        <ul class="mt-5 space-y-4 text-sm leading-6 text-gray-400">
+          <li class="flex items-start gap-3">
+            <span class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"></span>
+            Your Gumzo account, username and associated email address
+            will be deleted.
+          </li>
+
+          <li class="flex items-start gap-3">
+            <span class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"></span>
+            Your profile avatar and banner images will be removed.
+          </li>
+
+          <li class="flex items-start gap-3">
+            <span class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"></span>
+            Your associated public and private chat records will be
+            handled according to the account deletion process.
+          </li>
+
+          <li class="flex items-start gap-3">
+            <span class="mt-2 size-1.5 shrink-0 rounded-full bg-primary"></span>
+            Other personal information associated with your account
+            will be deleted, subject to any legally required retention.
+          </li>
+        </ul>
+      </div>
+
+      {/* Automatic chat deletion */}
+      <div class="mb-8 rounded-2xl border border-white/10 bg-dark-2 p-6">
+        <h2 class="text-base font-semibold text-white">
+          Chat message retention
+        </h2>
+
+        <p class="mt-3 text-sm leading-7 text-gray-400">
+          Gumzo automatically deletes public and private chat messages
+          according to its daily message retention schedule.
+          Account deletion is a separate process that removes your
+          associated account information.
+        </p>
+      </div>
+
+      {/* Deletion form */}
+      <DeleteAccountForm client:load />
+
+      {/* Support information */}
+      <div class="mt-8 text-center">
+        <p class="text-sm leading-7 text-gray-400">
+          Having trouble accessing your registered email address?
+          Visit our{" "}
+          <a
+            href="/support"
+            class="font-semibold text-primary hover:underline"
+          >
+            Help & Feedback
+          </a>
+          {" "}page to contact our support team.
+        </p>
+
+        <p class="mt-4 text-xs leading-6 text-gray-500">
+          For more information about how we handle your personal
+          information, read our{" "}
+          <a
+            href="/privacy"
+            class="font-semibold text-primary hover:underline"
+          >
+            Privacy Policy
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </main>
+</MainLayout>
