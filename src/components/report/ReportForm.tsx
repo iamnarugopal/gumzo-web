@@ -1,6 +1,20 @@
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { LuMail, LuSend, LuUserRound } from "react-icons/lu";
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string }
+      ) => Promise<string>;
+    };
+  }
+}
+
+const SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 
 const reportOptions = [
   { id: "inappropriate-content", label: "Inappropriate Content" },
@@ -14,6 +28,8 @@ const reportOptions = [
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
+const ACTION = "submit_report";
+
 export default function ReportForm() {
   const [reportedUsername, setReportedUsername] = useState("");
   const [reporterUsername, setReporterUsername] = useState("");
@@ -21,8 +37,84 @@ export default function ReportForm() {
   const [selectedReason, setSelectedReason] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [captchaReady, setCaptchaReady] = useState(false);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  // Load Google reCAPTCHA v3
+  useEffect(() => {
+    if (!SITE_KEY) {
+      console.error("Missing PUBLIC_RECAPTCHA_SITE_KEY.");
+      return;
+    }
+
+    let cancelled = false;
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[data-recaptcha-v3="true"]'
+    );
+
+    const initialize = () => {
+      if (cancelled || !window.grecaptcha) return;
+
+      window.grecaptcha.ready(() => {
+        if (!cancelled) {
+          setCaptchaReady(true);
+        }
+      });
+    };
+
+    if (existingScript) {
+      if (window.grecaptcha) {
+        initialize();
+      } else {
+        existingScript.addEventListener("load", initialize, { once: true });
+      }
+
+      return () => {
+        cancelled = true;
+        existingScript.removeEventListener("load", initialize);
+      };
+    }
+
+    const script = document.createElement("script");
+
+    script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    script.dataset.recaptchaV3 = "true";
+
+    script.addEventListener("load", initialize);
+
+    script.addEventListener(
+      "error",
+      () => {
+        if (!cancelled) {
+          setCaptchaReady(false);
+          console.error("Failed to load Google reCAPTCHA.");
+        }
+      },
+      { once: true }
+    );
+
+    document.head.appendChild(script);
+
+    return () => {
+      cancelled = true;
+      script.removeEventListener("load", initialize);
+      // Keep the shared Google script loaded.
+    };
+  }, []);
+
+  const inputClass =
+    "block w-full min-w-0 rounded-xl border border-white/10 bg-dark-3 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20";
+
+  const iconClass =
+    "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500";
+
+ const handleSubmit = async (
+    event: Parameters<
+      NonNullable<React.ComponentProps<"form">["onSubmit"]>
+    >[0]
+  ) => {
     event.preventDefault();
 
     if (submitting) return;
@@ -64,15 +156,30 @@ export default function ReportForm() {
     }
 
     // Check configuration
-    if (!SUPABASE_URL || !SUPABASE_KEY) {
+    if (!SITE_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
       setMessage("Report submission is currently unavailable.");
-      console.error("Missing Supabase environment variables.");
+      console.error("Missing environment variables.");
+      return;
+    }
+
+    if (!captchaReady || !window.grecaptcha) {
+      setMessage("Security verification is loading. Please try again.");
       return;
     }
 
     setSubmitting(true);
 
     try {
+      // Generate a fresh v3 token for every submission
+      const recaptchaToken = await window.grecaptcha.execute(SITE_KEY, {
+        action: ACTION,
+      });
+
+      if (!recaptchaToken) {
+        throw new Error("Unable to generate security verification token.");
+      }
+
+      // Submit report to Supabase Edge Function
       const response = await fetch(
         `${SUPABASE_URL}/functions/v1/submit-report`,
         {
@@ -87,25 +194,23 @@ export default function ReportForm() {
             reporterUsername: reporter,
             email: contactEmail,
             reason: selectedReason,
+            recaptchaToken,
           }),
-        },
+        }
       );
 
       const data = await response.json().catch(() => null);
 
-      if (!response.ok) {
+      if (!response.ok || !data?.success) {
         setMessage(
-          data?.error || "Unable to submit your report. Please try again.",
+          data?.error || "Unable to submit your report. Please try again."
         );
         return;
       }
 
-      if (!data?.success) {
-        setMessage(data?.error || "Unable to submit your report.");
-        return;
-      }
-
-      setMessage(data.message || "Your report has been submitted successfully.");
+      setMessage(
+        data.message || "Your report has been submitted successfully."
+      );
 
       // Reset form after successful submission
       setReportedUsername("");
@@ -114,21 +219,21 @@ export default function ReportForm() {
       setSelectedReason(null);
     } catch (error) {
       console.error("Report submission failed:", error);
-      setMessage("Something went wrong. Please try again.");
+
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
-  const inputClass =
-    "block w-full min-w-0 rounded-xl border border-white/10 bg-dark-3 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20";
-
-  const iconClass =
-    "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500";
-
   return (
     <div className="rounded-2xl border border-white/10 bg-dark-2 p-5 shadow-xl shadow-black/20 sm:p-8">
       <form onSubmit={handleSubmit} className="space-y-6">
+
         {/* Reported User */}
         <div>
           <label
@@ -164,7 +269,8 @@ export default function ReportForm() {
         {/* Report Reasons */}
         <div className="space-y-3">
           <label className="text-sm font-medium text-gray-200">
-            Reason for reporting <span className="text-danger">*</span>
+            Reason for reporting
+            <span className="ml-1 text-danger">*</span>
           </label>
 
           <div
@@ -292,6 +398,13 @@ export default function ReportForm() {
           </p>
         </div>
 
+        {/* reCAPTCHA v3 Status */}
+        <p className="text-xs text-gray-500" aria-live="polite">
+          {captchaReady
+            ? "Protected by Google reCAPTCHA."
+            : "Loading security verification..."}
+        </p>
+
         {/* Validation Message */}
         {message && (
           <div
@@ -306,12 +419,34 @@ export default function ReportForm() {
         {/* Submit */}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !captchaReady}
           className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-primary to-secondary px-6 py-4 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-primary/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
         >
           <LuSend size={18} />
           {submitting ? "Submitting Report..." : "Submit Report"}
         </button>
+
+        <p className="text-center text-xs leading-6 text-gray-500">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Terms of Service
+          </a>{" "}
+          apply.
+        </p>
 
         <p className="text-center text-xs leading-6 text-gray-500">
           Every report matters. Please provide accurate information and use

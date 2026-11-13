@@ -1,3 +1,4 @@
+
 ---
 const playStoreUrl = "https://gumzo.vercel.app/";
 
@@ -35,22 +36,22 @@ const policyLinks = [
         Download Gumzo and find your place in the community.
       </p>
 
-      <!-- Google Play Only -->
+      <!-- Google Play -->
       <div class="mt-9 flex justify-center">
         <a
           href={playStoreUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Get Gumzo on Google Play"
-          class="group inline-flex items-center transition duration-300 hover:-translate-y-1 "
+          class="group inline-flex items-center transition duration-300 hover:-translate-y-1"
         >
           <img
-        src="/GetItOnGooglePlay.svg"
-        alt="Gumzo"
-        width="270"
-        height="80"
-        class="h-12 w-auto object-contain sm:h-20"
-      />
+            src="/GetItOnGooglePlay.svg"
+            alt="Get it on Google Play"
+            width="270"
+            height="80"
+            class="h-12 w-auto object-contain sm:h-20"
+          />
         </a>
       </div>
 
@@ -104,7 +105,9 @@ const policyLinks = [
     id="back-to-top"
     type="button"
     aria-label="Back to top"
-    class="fixed right-5 bottom-5 z-40 flex size-11 items-center justify-center rounded-lg border border-white/10 bg-dark-1 text-xl text-white shadow-lg transition hover:bg-primary"
+    aria-hidden="true"
+    tabindex="-1"
+    class="invisible pointer-events-none fixed bottom-5 right-5 z-40 flex size-11 translate-y-3 items-center justify-center rounded-lg border border-white/10 bg-dark-1 text-xl text-white opacity-0 shadow-lg transition-all duration-300 hover:bg-primary"
   >
     ↑
   </button>
@@ -112,10 +115,41 @@ const policyLinks = [
 </footer>
 
 <script>
-  const backToTop = document.querySelector<HTMLButtonElement>(
-    "#back-to-top"
-  );
+  const backToTop =
+    document.querySelector<HTMLButtonElement>("#back-to-top");
 
+  const SCROLL_THRESHOLD = 150;
+
+  const toggleBackToTop = () => {
+    if (!backToTop) return;
+
+    const shouldShow = window.scrollY > SCROLL_THRESHOLD;
+
+    backToTop.classList.toggle("opacity-0", !shouldShow);
+    backToTop.classList.toggle("opacity-100", shouldShow);
+
+    backToTop.classList.toggle("invisible", !shouldShow);
+    backToTop.classList.toggle("visible", shouldShow);
+
+    backToTop.classList.toggle("pointer-events-none", !shouldShow);
+    backToTop.classList.toggle("pointer-events-auto", shouldShow);
+
+    backToTop.classList.toggle("translate-y-3", !shouldShow);
+    backToTop.classList.toggle("translate-y-0", shouldShow);
+
+    backToTop.setAttribute("aria-hidden", String(!shouldShow));
+    backToTop.tabIndex = shouldShow ? 0 : -1;
+  };
+
+  // Set initial visibility
+  toggleBackToTop();
+
+  // Update visibility on scroll
+  window.addEventListener("scroll", toggleBackToTop, {
+    passive: true,
+  });
+
+  // Scroll smoothly to top
   backToTop?.addEventListener("click", () => {
     window.scrollTo({
       top: 0,

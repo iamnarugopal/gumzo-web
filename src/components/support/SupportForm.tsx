@@ -1,19 +1,45 @@
 
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 import {
-    LuBug,
-    LuChevronDown,
-    LuCircleAlert,
-    LuCircleCheck,
-    LuLifeBuoy,
-    LuLightbulb,
-    LuMail,
-    LuSend,
-    LuShieldAlert,
-    LuTrash2,
-    LuUpload,
-    LuUserRound,
+  LuBug,
+  LuChevronDown,
+  LuCircleAlert,
+  LuCircleCheck,
+  LuLifeBuoy,
+  LuLightbulb,
+  LuMail,
+  LuSend,
+  LuShieldAlert,
+  LuTrash2,
+  LuUpload,
+  LuUserRound,
 } from "react-icons/lu";
+
+// --------------------------------------------------
+// reCAPTCHA v3
+// --------------------------------------------------
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string }
+      ) => Promise<string>;
+    };
+  }
+}
+
+const SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const RECAPTCHA_ACTION = "submit_support";
+
+// --------------------------------------------------
+// Categories
+// --------------------------------------------------
 
 const categories = [
   {
@@ -52,6 +78,10 @@ const categories = [
   },
 ];
 
+// --------------------------------------------------
+// Attachment configuration
+// --------------------------------------------------
+
 const MAX_ATTACHMENTS = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_VIDEO_SIZE = 20 * 1024 * 1024;
@@ -68,6 +98,10 @@ type Status = {
   message: string;
   type: "success" | "error";
 } | null;
+
+// --------------------------------------------------
+// Helpers
+// --------------------------------------------------
 
 function getFileExtension(fileName: string) {
   return fileName.split(".").pop()?.toLowerCase() || "";
@@ -91,6 +125,10 @@ function formatFileSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+// --------------------------------------------------
+// Component
+// --------------------------------------------------
+
 export default function SupportForm() {
   const [category, setCategory] = useState("general_support");
   const [username, setUsername] = useState("");
@@ -99,6 +137,7 @@ export default function SupportForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<Status>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [captchaReady, setCaptchaReady] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -107,11 +146,88 @@ export default function SupportForm() {
 
   const showAttachments = category === "bug_report";
 
+  // ------------------------------------------------
+  // Load Google reCAPTCHA v3
+  // ------------------------------------------------
+
+  useEffect(() => {
+    if (!SITE_KEY) {
+      console.error("Missing PUBLIC_RECAPTCHA_SITE_KEY.");
+      return;
+    }
+
+    let cancelled = false;
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[data-recaptcha-v3="true"]'
+    );
+
+    const initialize = () => {
+      if (cancelled || !window.grecaptcha) return;
+
+      window.grecaptcha.ready(() => {
+        if (!cancelled) {
+          setCaptchaReady(true);
+        }
+      });
+    };
+
+    if (existingScript) {
+      if (window.grecaptcha) {
+        initialize();
+      } else {
+        existingScript.addEventListener("load", initialize, {
+          once: true,
+        });
+      }
+
+      return () => {
+        cancelled = true;
+        existingScript.removeEventListener("load", initialize);
+      };
+    }
+
+    const script = document.createElement("script");
+
+    script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    script.dataset.recaptchaV3 = "true";
+
+    script.addEventListener("load", initialize);
+
+    script.addEventListener(
+      "error",
+      () => {
+        if (!cancelled) {
+          setCaptchaReady(false);
+          console.error("Failed to load Google reCAPTCHA.");
+        }
+      },
+      { once: true }
+    );
+
+    document.head.appendChild(script);
+
+    return () => {
+      cancelled = true;
+      script.removeEventListener("load", initialize);
+    };
+  }, []);
+
+  // ------------------------------------------------
+  // Styles
+  // ------------------------------------------------
+
   const inputClass =
     "block w-full min-w-0 rounded-xl border border-white/10 bg-dark-3 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
   const iconClass =
     "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500";
+
+  // ------------------------------------------------
+  // Category change
+  // ------------------------------------------------
 
   const handleCategoryChange = (value: string) => {
     setCategory(value);
@@ -126,8 +242,15 @@ export default function SupportForm() {
     }
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files ?? []);
+  // ------------------------------------------------
+  // File selection
+  // ------------------------------------------------
+
+  const handleFileChange = (
+    event: SyntheticEvent<HTMLInputElement>
+  ) => {
+    const input = event.currentTarget;
+    const selectedFiles = Array.from(input.files ?? []);
 
     if (selectedFiles.length > MAX_ATTACHMENTS) {
       setStatus({
@@ -135,7 +258,7 @@ export default function SupportForm() {
         type: "error",
       });
 
-      event.target.value = "";
+      input.value = "";
       setFiles([]);
       return;
     }
@@ -166,7 +289,7 @@ export default function SupportForm() {
         type: "error",
       });
 
-      event.target.value = "";
+      input.value = "";
       setFiles([]);
       return;
     }
@@ -175,12 +298,15 @@ export default function SupportForm() {
     setStatus(null);
   };
 
+  // ------------------------------------------------
+  // Remove attachment
+  // ------------------------------------------------
+
   const removeFile = (index: number) => {
     const updatedFiles = files.filter((_, i) => i !== index);
 
     setFiles(updatedFiles);
 
-    // Keep the native file input synchronized with React state.
     if (fileInputRef.current) {
       const dataTransfer = new DataTransfer();
 
@@ -192,7 +318,13 @@ export default function SupportForm() {
     }
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  // ------------------------------------------------
+  // Form submission
+  // ------------------------------------------------
+
+  const handleSubmit = async (
+    event: SyntheticEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     if (submitting) return;
@@ -206,6 +338,7 @@ export default function SupportForm() {
     const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    // Validate username
     if (
       trimmedUsername.length < 3 ||
       trimmedUsername.length > 30 ||
@@ -218,6 +351,7 @@ export default function SupportForm() {
       return;
     }
 
+    // Validate email
     if (
       !emailPattern.test(trimmedEmail) ||
       trimmedEmail.length > 254
@@ -229,6 +363,7 @@ export default function SupportForm() {
       return;
     }
 
+    // Validate description
     if (!trimmedDescription) {
       setStatus({
         message: "Please provide a description.",
@@ -237,6 +372,7 @@ export default function SupportForm() {
       return;
     }
 
+    // Validate attachments
     if (showAttachments && files.length > MAX_ATTACHMENTS) {
       setStatus({
         message: "You can only upload up to 5 attachments.",
@@ -245,75 +381,129 @@ export default function SupportForm() {
       return;
     }
 
+    // Check configuration
+    if (!SITE_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
+      setStatus({
+        message: "Support submission is currently unavailable.",
+        type: "error",
+      });
+
+      console.error("Missing environment variables.");
+      return;
+    }
+
+    if (!captchaReady || !window.grecaptcha) {
+      setStatus({
+        message: "Security verification is loading. Please try again.",
+        type: "error",
+      });
+      return;
+    }
+
     setSubmitting(true);
 
-   
-try {
-  const formData = new FormData();
+    try {
+      // --------------------------------------------
+      // Generate fresh reCAPTCHA v3 token
+      // --------------------------------------------
 
-  formData.append("username", trimmedUsername);
-  formData.append("contact_email", trimmedEmail);
-  formData.append("category", category);
-  formData.append("description", trimmedDescription);
+      const recaptchaToken = await window.grecaptcha.execute(
+        SITE_KEY,
+        {
+          action: RECAPTCHA_ACTION,
+        }
+      );
 
-  // Append multiple attachments
-  files.forEach((file) => {
-    formData.append("attachments", file);
-  });
+      if (!recaptchaToken) {
+        throw new Error(
+          "Unable to generate security verification token."
+        );
+      }
 
-  const response = await fetch(
-    `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/submit-support`,
-    {
-      method: "POST",
-      headers: {
-        apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
-      },
-      body: formData,
-    },
-  );
+      // --------------------------------------------
+      // Build multipart form data
+      // --------------------------------------------
 
-  const data = await response.json();
+      const formData = new FormData();
 
-  if (!response.ok || !data.success) {
-    console.error("Support submission error:", data);
+      formData.append("username", trimmedUsername);
+      formData.append("contact_email", trimmedEmail);
+      formData.append("category", category);
+      formData.append("description", trimmedDescription);
+      formData.append("recaptchaToken", recaptchaToken);
 
-    throw new Error(
-      data.details || data.error || "Unable to submit support ticket.",
-    );
-  }
+      // Append attachments
+      if (showAttachments) {
+        files.forEach((file) => {
+          formData.append("attachments", file);
+        });
+      }
 
-  setStatus({
-    message: `Your support ticket has been submitted successfully. Ticket ID: ${data.ticketId}`,
-    type: "success",
-  });
+      // --------------------------------------------
+      // Submit to Supabase Edge Function
+      // --------------------------------------------
 
-  // Reset form
-  setUsername("");
-  setEmail("");
-  setDescription("");
-  setFiles([]);
-  setCategory("general_support");
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/submit-support`,
+        {
+          method: "POST",
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+          body: formData,
+        }
+      );
 
-  if (fileInputRef.current) {
-    fileInputRef.current.value = "";
-  }
+      const data = await response.json().catch(() => null);
 
-} catch (error) {
-  console.error("Support form submission failed:", error);
+      if (!response.ok || !data?.success) {
+        console.error("Support submission error:", data);
 
-  setStatus({
-    message:
-      error instanceof Error
-        ? error.message
-        : "Something went wrong. Please try again.",
-    type: "error",
-  });
-} finally {
-  setSubmitting(false);
-}
+        throw new Error(
+          data?.error ||
+            data?.details ||
+            "Unable to submit support ticket."
+        );
+      }
 
+      // --------------------------------------------
+      // Success
+      // --------------------------------------------
+
+      setStatus({
+        message: `Your support ticket has been submitted successfully. Ticket ID: ${data.ticketId}`,
+        type: "success",
+      });
+
+      // Reset form
+      setUsername("");
+      setEmail("");
+      setDescription("");
+      setFiles([]);
+      setCategory("general_support");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Support form submission failed:", error);
+
+      setStatus({
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  // ------------------------------------------------
+  // Render
+  // ------------------------------------------------
 
   return (
     <div className="rounded-2xl border border-white/10 bg-dark-2 p-5 shadow-2xl shadow-black/20 sm:p-8">
@@ -557,6 +747,13 @@ try {
           </div>
         )}
 
+        {/* reCAPTCHA v3 Status */}
+        <p className="text-xs text-gray-500" aria-live="polite">
+          {captchaReady
+            ? "Protected by Google reCAPTCHA."
+            : "Loading security verification..."}
+        </p>
+
         {/* Status */}
         {status && (
           <div
@@ -582,7 +779,7 @@ try {
         <button
           id="submit-button"
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !captchaReady}
           className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-primary to-secondary px-6 py-4 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-primary/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
         >
           <LuSend size={18} />
@@ -593,6 +790,27 @@ try {
           Please provide accurate information so we can assist you better.
         </p>
 
+        <p className="text-center text-xs leading-6 text-gray-500">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            Terms of Service
+          </a>{" "}
+          apply.
+        </p>
       </form>
     </div>
   );

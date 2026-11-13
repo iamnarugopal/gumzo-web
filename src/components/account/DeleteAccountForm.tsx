@@ -1,17 +1,40 @@
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import {
-    LuArrowLeft,
-    LuArrowRight,
-    LuCheck,
-    LuInfo,
-    LuLoaderCircle,
-    LuMail,
-    LuShieldCheck,
-    LuUserRound,
+  LuArrowLeft,
+  LuArrowRight,
+  LuCheck,
+  LuInfo,
+  LuLoaderCircle,
+  LuMail,
+  LuShieldCheck,
+  LuUserRound,
 } from "react-icons/lu";
 
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string },
+      ) => Promise<string>;
+    };
+  }
+}
+
 type Step = "email" | "verification" | "success";
+
+const RECAPTCHA_SITE_KEY =
+  import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+
+const SUPABASE_URL =
+  import.meta.env.PUBLIC_SUPABASE_URL;
+
+const SUPABASE_ANON_KEY =
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const RECAPTCHA_SCRIPT_ID = "google-recaptcha-v3";
 
 export default function DeleteAccountForm() {
   const [step, setStep] = useState<Step>("email");
@@ -20,13 +43,115 @@ export default function DeleteAccountForm() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [captchaReady, setCaptchaReady] = useState(false);
+
+  // --------------------------------------------------
+  // Load reCAPTCHA v3
+  // --------------------------------------------------
+
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY) {
+      console.error("Missing PUBLIC_RECAPTCHA_SITE_KEY.");
+      return;
+    }
+
+    if (window.grecaptcha) {
+      window.grecaptcha.ready(() => {
+        setCaptchaReady(true);
+      });
+      return;
+    }
+
+    let script = document.getElementById(
+      RECAPTCHA_SCRIPT_ID,
+    ) as HTMLScriptElement | null;
+
+    const handleLoad = () => {
+      if (!window.grecaptcha) {
+        console.error("reCAPTCHA failed to initialize.");
+        return;
+      }
+
+      window.grecaptcha.ready(() => {
+        setCaptchaReady(true);
+      });
+    };
+
+    const handleError = () => {
+      console.error("Unable to load reCAPTCHA script.");
+    };
+
+    if (!script) {
+      script = document.createElement("script");
+      script.id = RECAPTCHA_SCRIPT_ID;
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+
+      script.addEventListener("load", handleLoad);
+      script.addEventListener("error", handleError);
+
+      document.head.appendChild(script);
+    } else {
+      script.addEventListener("load", handleLoad);
+      script.addEventListener("error", handleError);
+
+      // Handle the case where the script has already loaded.
+      if (window.grecaptcha) {
+        handleLoad();
+      }
+    }
+
+    return () => {
+      script?.removeEventListener("load", handleLoad);
+      script?.removeEventListener("error", handleError);
+    };
+  }, []);
+
+  // --------------------------------------------------
+  // Generate reCAPTCHA token
+  // --------------------------------------------------
+
+  const generateRecaptchaToken = async (
+    action: string,
+  ): Promise<string> => {
+    if (!window.grecaptcha || !captchaReady) {
+      throw new Error(
+        "Security verification is not ready. Please try again.",
+      );
+    }
+
+    return new Promise((resolve, reject) => {
+      window.grecaptcha!.ready(async () => {
+        try {
+          const token = await window.grecaptcha!.execute(
+            RECAPTCHA_SITE_KEY,
+            { action },
+          );
+
+          if (!token) {
+            reject(new Error("Unable to generate security token."));
+            return;
+          }
+
+          resolve(token);
+        } catch {
+          reject(
+            new Error("Security verification failed. Please try again."),
+          );
+        }
+      });
+    });
+  };
 
   const steps = [
     { id: "email", label: "Account details" },
     { id: "verification", label: "Verify email" },
   ];
 
-  const currentStep = steps.findIndex((item) => item.id === step);
+  const currentStep = steps.findIndex(
+    (item) => item.id === step,
+  );
 
   const inputClasses =
     "h-12 w-full rounded-xl border border-white/10 bg-dark-3 px-4 text-sm text-white outline-none transition placeholder:text-gray-500 focus:border-primary focus:ring-2 focus:ring-primary/20";
@@ -34,8 +159,12 @@ export default function DeleteAccountForm() {
   const primaryButtonClasses =
     "flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50";
 
+  // --------------------------------------------------
+  // Step 1: Request deletion OTP
+  // --------------------------------------------------
+
   const handleEmailSubmit = async (
-    event: FormEvent<HTMLFormElement>
+    event: SyntheticEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
     setError("");
@@ -45,28 +174,55 @@ export default function DeleteAccountForm() {
 
     if (!normalizedUsername || !normalizedEmail) {
       setError(
-        "Please enter your username and registered email address."
+        "Please enter your username and registered email address.",
       );
+      return;
+    }
+
+    if (
+      normalizedUsername.length < 3 ||
+      normalizedUsername.length > 30 ||
+      !/^[a-z0-9_.-]+$/.test(normalizedUsername)
+    ) {
+      setError("Please enter a valid Gumzo username.");
+      return;
+    }
+
+    if (
+      normalizedEmail.length > 254 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)
+    ) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!captchaReady) {
+      setError("Security verification is still loading. Please wait.");
       return;
     }
 
     setLoading(true);
 
     try {
+      const recaptchaToken = await generateRecaptchaToken(
+        "request_account_deletion",
+      );
+
       const response = await fetch(
-        `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/request-account-deletion-otp`,
+        `${SUPABASE_URL}/functions/v1/request-account-deletion-otp`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             username: normalizedUsername,
             email: normalizedEmail,
+            recaptchaToken,
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -74,23 +230,35 @@ export default function DeleteAccountForm() {
       if (!response.ok || !data.success) {
         setError(
           data.message ||
-            "Invalid username or email address. Please check your details."
+            data.error ||
+            "Invalid username or email address. Please check your details.",
         );
         return;
       }
 
+      setUsername(normalizedUsername);
+      setEmail(normalizedEmail);
       setStep("verification");
       setOtp("");
     } catch (error) {
       console.error("OTP request failed:", error);
-      setError("Unable to send verification code. Please try again.");
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Unable to send verification code. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  // --------------------------------------------------
+  // Step 2: Verify OTP
+  // --------------------------------------------------
+
   const handleOtpSubmit = async (
-    event: FormEvent<HTMLFormElement>
+    event: SyntheticEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
     setError("");
@@ -100,31 +268,43 @@ export default function DeleteAccountForm() {
       return;
     }
 
+    if (!captchaReady) {
+      setError("Security verification is still loading. Please wait.");
+      return;
+    }
+
     setLoading(true);
 
     try {
+      const recaptchaToken = await generateRecaptchaToken(
+        "verify_account_deletion",
+      );
+
       const response = await fetch(
-        `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/verify-account-deletion-otp`,
+        `${SUPABASE_URL}/functions/v1/verify-account-deletion-otp`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             username: username.trim().toLowerCase(),
             email: email.trim().toLowerCase(),
             otp,
+            recaptchaToken,
           }),
-        }
+        },
       );
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
         setError(
-          data.message || "Invalid or expired verification code."
+          data.message ||
+            data.error ||
+            "Invalid or expired verification code.",
         );
         return;
       }
@@ -134,17 +314,30 @@ export default function DeleteAccountForm() {
       setStep("success");
     } catch (error) {
       console.error("OTP verification failed:", error);
-      setError("Unable to verify the code. Please try again.");
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Unable to verify the code. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  // --------------------------------------------------
+  // Back to account details
+  // --------------------------------------------------
 
   const handleBack = () => {
     setError("");
     setOtp("");
     setStep("email");
   };
+
+  // --------------------------------------------------
+  // UI
+  // --------------------------------------------------
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-dark-2 shadow-xl">
@@ -285,7 +478,10 @@ export default function DeleteAccountForm() {
             <button
               type="submit"
               disabled={
-                loading || !username.trim() || !email.trim()
+                loading ||
+                !captchaReady ||
+                !username.trim() ||
+                !email.trim()
               }
               className={primaryButtonClasses}
             >
@@ -296,6 +492,14 @@ export default function DeleteAccountForm() {
                     size={18}
                   />
                   Sending code...
+                </>
+              ) : !captchaReady ? (
+                <>
+                  <LuLoaderCircle
+                    className="animate-spin"
+                    size={18}
+                  />
+                  Loading security...
                 </>
               ) : (
                 <>
@@ -347,7 +551,7 @@ export default function DeleteAccountForm() {
                 value={otp}
                 onChange={(event) =>
                   setOtp(
-                    event.target.value.replace(/\D/g, "").slice(0, 8)
+                    event.target.value.replace(/\D/g, "").slice(0, 8),
                   )
                 }
                 placeholder="00000000"
@@ -361,7 +565,11 @@ export default function DeleteAccountForm() {
 
             <button
               type="submit"
-              disabled={loading || otp.length !== 8}
+              disabled={
+                loading ||
+                !captchaReady ||
+                otp.length !== 8
+              }
               className={primaryButtonClasses}
             >
               {loading ? (
