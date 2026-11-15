@@ -23,7 +23,12 @@ declare global {
   }
 }
 
+import { cooldownRemaining, markSubmitted } from "../../lib/spamGuard";
+
 type Step = "email" | "verification" | "success";
+
+// Minimum gap between verification-code emails.
+const OTP_COOLDOWN_MS = 60_000;
 
 const RECAPTCHA_SITE_KEY =
   import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
@@ -201,6 +206,13 @@ export default function DeleteAccountForm() {
       return;
     }
 
+    const wait = cooldownRemaining("delete-otp", OTP_COOLDOWN_MS);
+
+    if (wait > 0) {
+      setError(`Please wait ${wait}s before requesting another code.`);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -228,6 +240,8 @@ export default function DeleteAccountForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
+        // The server already returns one generic message for
+        // unknown username / wrong email, so it is safe to show.
         setError(
           data.message ||
             data.error ||
@@ -236,6 +250,7 @@ export default function DeleteAccountForm() {
         return;
       }
 
+      markSubmitted("delete-otp");
       setUsername(normalizedUsername);
       setEmail(normalizedEmail);
       setStep("verification");

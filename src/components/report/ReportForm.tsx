@@ -1,6 +1,13 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuMail, LuSend, LuUserRound } from "react-icons/lu";
+import {
+  cooldownRemaining,
+  markSubmitted,
+  MIN_FILL_TIME_MS,
+} from "../../lib/spamGuard";
+
+const COOLDOWN_MS = 60_000;
 
 declare global {
   interface Window {
@@ -38,6 +45,8 @@ export default function ReportForm() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [captchaReady, setCaptchaReady] = useState(false);
+  const [website, setWebsite] = useState(""); // honeypot
+  const mountedAt = useRef(Date.now());
 
   // Load Google reCAPTCHA v3
   useEffect(() => {
@@ -121,18 +130,46 @@ export default function ReportForm() {
 
     setMessage("");
 
+    // Honeypot: real users never see or fill this field.
+    if (website) {
+      setMessage("Your report has been submitted successfully.");
+      return;
+    }
+
+    if (Date.now() - mountedAt.current < MIN_FILL_TIME_MS) {
+      setMessage("Please take a moment to review your report and try again.");
+      return;
+    }
+
+    const wait = cooldownRemaining("report", COOLDOWN_MS);
+
+    if (wait > 0) {
+      setMessage(`Please wait ${wait}s before submitting another report.`);
+      return;
+    }
+
     const reported = reportedUsername.trim();
     const reporter = reporterUsername.trim();
     const contactEmail = email.trim();
 
+    const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
+
     // Validate reported username
-    if (reported.length < 3 || reported.length > 30) {
+    if (
+      reported.length < 3 ||
+      reported.length > 30 ||
+      !usernamePattern.test(reported)
+    ) {
       setMessage("Please enter a valid reported username.");
       return;
     }
 
     // Validate reporter username
-    if (reporter.length < 3 || reporter.length > 30) {
+    if (
+      reporter.length < 3 ||
+      reporter.length > 30 ||
+      !usernamePattern.test(reporter)
+    ) {
       setMessage("Please enter a valid Gumzo username.");
       return;
     }
@@ -207,6 +244,8 @@ export default function ReportForm() {
         );
         return;
       }
+
+      markSubmitted("report");
 
       setMessage(
         data.message || "Your report has been submitted successfully."
@@ -396,6 +435,23 @@ export default function ReportForm() {
             We'll use this email if we need more information about your
             report.
           </p>
+        </div>
+
+        {/* Honeypot (hidden from real users) */}
+        <div
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", height: 0, overflow: "hidden" }}
+        >
+          <label htmlFor="report-website">Website</label>
+          <input
+            id="report-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
         </div>
 
         {/* reCAPTCHA v3 Status */}

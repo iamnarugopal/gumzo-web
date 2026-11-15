@@ -14,6 +14,13 @@ import {
   LuUpload,
   LuUserRound,
 } from "react-icons/lu";
+import {
+  cooldownRemaining,
+  markSubmitted,
+  MIN_FILL_TIME_MS,
+} from "../../lib/spamGuard";
+
+const COOLDOWN_MS = 60_000;
 
 // --------------------------------------------------
 // reCAPTCHA v3
@@ -140,6 +147,8 @@ export default function SupportForm() {
   const [captchaReady, setCaptchaReady] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [website, setWebsite] = useState(""); // honeypot
+  const mountedAt = useRef(Date.now());
 
   const selectedCategory =
     categories.find((item) => item.value === category) ?? categories[0];
@@ -331,6 +340,33 @@ export default function SupportForm() {
 
     setStatus(null);
 
+    // Honeypot: real users never see or fill this field.
+    if (website) {
+      setStatus({
+        message: "Your support ticket has been submitted successfully.",
+        type: "success",
+      });
+      return;
+    }
+
+    if (Date.now() - mountedAt.current < MIN_FILL_TIME_MS) {
+      setStatus({
+        message: "Please take a moment to review your request and try again.",
+        type: "error",
+      });
+      return;
+    }
+
+    const wait = cooldownRemaining("support", COOLDOWN_MS);
+
+    if (wait > 0) {
+      setStatus({
+        message: `Please wait ${wait}s before submitting another ticket.`,
+        type: "error",
+      });
+      return;
+    }
+
     const trimmedUsername = username.trim();
     const trimmedEmail = email.trim();
     const trimmedDescription = description.trim();
@@ -458,18 +494,19 @@ export default function SupportForm() {
       const data = await response.json().catch(() => null);
 
       if (!response.ok || !data?.success) {
-        console.error("Support submission error:", data);
-
+        // Never surface server internals (`details`) to the user.
         throw new Error(
-          data?.error ||
-            data?.details ||
-            "Unable to submit support ticket."
+          typeof data?.error === "string" && data.error.length <= 200
+            ? data.error
+            : "Unable to submit support ticket."
         );
       }
 
       // --------------------------------------------
       // Success
       // --------------------------------------------
+
+      markSubmitted("support");
 
       setStatus({
         message: `Your support ticket has been submitted successfully. Ticket ID: ${data.ticketId}`,
@@ -746,6 +783,23 @@ export default function SupportForm() {
             />
           </div>
         )}
+
+        {/* Honeypot (hidden from real users) */}
+        <div
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", height: 0, overflow: "hidden" }}
+        >
+          <label htmlFor="support-website">Website</label>
+          <input
+            id="support-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </div>
 
         {/* reCAPTCHA v3 Status */}
         <p className="text-xs text-gray-500" aria-live="polite">
