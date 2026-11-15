@@ -2,7 +2,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 
-const effectiveDate = "31 October 2026";
+const effectiveDate = "15 November 2026";
 
 const sections = [
   {
@@ -21,6 +21,7 @@ const sections = [
     paragraphs: [
       "Gumzo is strictly intended for individuals who are 18 years of age or older.",
       "Users under the age of 18 are not permitted to create accounts or access our Services.",
+      "By creating an account and using Gumzo, you confirm that you are at least 18 years old and agree to our Terms of Service.",
       "If you encounter someone who appears to be under 18, please report the account through the in-app reporting feature or contact Gumzo Support.",
       "If we identify an account belonging to an underage user, we may restrict or permanently terminate that account and take appropriate steps in accordance with applicable law."
     ]
@@ -60,9 +61,9 @@ const sections = [
       "Depending on the available account settings, you can:"
     ],
     bullets: [
-      "Allow private messages from other users.",
-      "Restrict private messages to friends.",
-      "Disable private messaging."
+      "Turn on \"Private Messages Only From Friends\" to restrict private messages to your friends.",
+      "Turn on \"Disable Private Messaging\" to stop receiving private messages altogether.",
+      "Turn both off to allow private messages from other users."
     ],
     ending: "We encourage users to review their messaging preferences and choose the settings that make them comfortable. You can update these preferences through the available settings in your account."
   },
@@ -118,11 +119,22 @@ const sections = [
       "Misrepresenting age to facilitate inappropriate interactions with minors.",
       "Encouraging, facilitating, or participating in the exploitation of children."
     ],
-    ending: "Accounts involved in suspected child sexual exploitation may be immediately restricted or permanently terminated. We may preserve relevant information and report suspected illegal activity to appropriate authorities when required or permitted by applicable law."
+    ending: "Accounts involved in suspected child sexual exploitation are immediately restricted or permanently terminated. Reports involving child safety are given priority review."
+  },
+  {
+    id: "csae-reporting",
+    title: "9. Reporting CSAE and Cooperation With Authorities",
+    paragraphs: [
+      "Anyone can report suspected child sexual abuse or exploitation directly in the app using the in-app report feature, or by emailing gumzo.support@gmail.com.",
+      "When we identify or are made aware of child sexual abuse material (CSAM) or other CSAE activity, we remove the content, terminate the responsible account, and preserve relevant information as permitted by law.",
+      "We report confirmed CSAM and child exploitation to the relevant regional and national authorities, including the National Center for Missing & Exploited Children (NCMEC) where applicable, and to Indian authorities such as the National Cyber Crime Reporting Portal (cybercrime.gov.in), and we cooperate with valid law enforcement requests. See our Law Enforcement page for more information.",
+      "Gumzo complies with applicable child safety laws and regulations.",
+      "Designated point of contact for child safety and CSAM prevention and compliance: gumzo.support@gmail.com."
+    ]
   },
   {
     id: "sexual-content",
-    title: "9. Sexual Content and Harassment",
+    title: "10. Sexual Content and Harassment",
     paragraphs: [
       "Gumzo does not allow pornographic or sexually explicit content.",
       "Users must not send unsolicited sexual messages, share explicit images, engage in sexual harassment, or pressure other users into unwanted interactions.",
@@ -132,7 +144,7 @@ const sections = [
   },
   {
     id: "personal-information",
-    title: "10. Protect Your Personal Information",
+    title: "11. Protect Your Personal Information",
     paragraphs: [
       "Be careful about the information you share online. People you meet through chat rooms and private messages may not always be who they claim to be.",
       "We strongly recommend that you avoid sharing sensitive personal information with people you do not know or trust.",
@@ -150,7 +162,7 @@ const sections = [
   },
   {
     id: "suspicious-users",
-    title: "11. Recognizing and Avoiding Suspicious Users",
+    title: "12. Recognizing and Avoiding Suspicious Users",
     paragraphs: [
       "Not everyone you meet online has good intentions. Some individuals may attempt to manipulate, deceive, or exploit other users.",
       "Be cautious if someone:"
@@ -168,7 +180,7 @@ const sections = [
   },
   {
     id: "spam-security",
-    title: "12. Spam, Scams and Platform Security",
+    title: "13. Spam, Scams and Platform Security",
     paragraphs: [
       "Gumzo does not permit the use of its Services for spam, phishing, fraud, or other malicious activities.",
       "Do not click suspicious links, download unknown files, or provide sensitive information in response to unsolicited messages.",
@@ -178,7 +190,7 @@ const sections = [
   },
   {
     id: "self-harm",
-    title: "13. Suicide and Self-Harm Prevention",
+    title: "14. Suicide and Self-Harm Prevention",
     paragraphs: [
       "We take messages involving suicide, self-harm, and threats of serious personal injury seriously.",
       "If you encounter someone who appears to be considering suicide or self-harm:"
@@ -194,7 +206,7 @@ const sections = [
   },
   {
     id: "general-tips",
-    title: "14. General Chat Safety Tips",
+    title: "15. General Chat Safety Tips",
     paragraphs: [
       "A few simple precautions can help make your experience on Gumzo safer."
     ],
@@ -210,7 +222,7 @@ const sections = [
   },
   {
     id: "privacy",
-    title: "15. Privacy and Safety",
+    title: "16. Privacy and Safety",
     paragraphs: [
       "Your privacy and security are important parts of your safety on Gumzo.",
       "We encourage users to review their account visibility, messaging, and notification preferences regularly.",
@@ -220,7 +232,7 @@ const sections = [
   },
   {
     id: "updates",
-    title: "16. Updates to This Safety Statement",
+    title: "17. Updates to This Safety Statement",
     paragraphs: [
       "We may update this Safety Statement as Gumzo introduces new features, improves moderation processes, or responds to emerging safety concerns.",
       "Changes will be published on this page with an updated effective or last updated date.",
@@ -229,7 +241,7 @@ const sections = [
   },
   {
     id: "contact",
-    title: "17. Contact Gumzo Support",
+    title: "18. Contact Gumzo Support",
     paragraphs: [
       "If you have a safety concern, need help reporting inappropriate behavior, or want to raise a concern about a moderation decision, please contact our support team.",
       "For urgent situations involving immediate danger, contact your local emergency services directly. Do not rely on Gumzo Support as an emergency response service."

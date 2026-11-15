@@ -26,10 +26,14 @@ const SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 const reportOptions = [
   { id: "inappropriate-content", label: "Inappropriate Content" },
   { id: "sexual-content", label: "Sexual Content" },
-  { id: "rude-disrespectful", label: "Rude or Disrespectful" },
-  { id: "harassment-bullying", label: "Harassment or Bullying" },
+  { id: "harassment-abuse", label: "Harassment or Abuse" },
   { id: "hate-threats", label: "Hate or Threats" },
   { id: "spam-scam", label: "Spam or Scam" },
+  { id: "underage-user", label: "Underage User" },
+  {
+    id: "child-sexual-exploitation",
+    label: "Sexual Content Involving Minors",
+  },
 ];
 
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
