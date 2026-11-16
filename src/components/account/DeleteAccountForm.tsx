@@ -566,7 +566,7 @@ export default function DeleteAccountForm() {
                 value={otp}
                 onChange={(event) =>
                   setOtp(
-                    event.target.value.replace(/\D/g, "").slice(0, 8),
+                    event.target.value.replace(/\D/g, "").slice(0, 6),
                   )
                 }
                 placeholder="000000"
@@ -583,7 +583,7 @@ export default function DeleteAccountForm() {
               disabled={
                 loading ||
                 !captchaReady ||
-                otp.length !== 8
+                otp.length !== 6
               }
               className={primaryButtonClasses}
             >
