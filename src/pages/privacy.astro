@@ -115,7 +115,8 @@ const sections = [
       "When you submit a report, we may collect the information included in your report, the relevant account identifiers, reported content, related room information, and other details necessary to investigate the matter.",
       "Moderators and authorized personnel may access relevant information when reviewing reports, investigating violations, or enforcing platform policies.",
       "We may maintain moderation records, including warnings, restrictions, temporary suspensions, permanent bans, and related decisions, to protect users and prevent repeated violations.",
-      "Information collected for moderation may be retained for as long as reasonably necessary for safety, security, appeals, dispute resolution, and legal compliance."
+      "Information collected for moderation may be retained for as long as reasonably necessary for safety, security, appeals, dispute resolution, and legal compliance.",
+      "Moderation records of mutes and bans (temporary and permanent) are kept after your account is deleted. The record contains no profile data. Your email address is stored only as one-way hashes, as described in the Data Retention section."
     ]
   },
   {
@@ -187,11 +188,11 @@ const sections = [
       "Profile information and preferences may be retained to provide your account features.",
       "Public chat room messages are automatically deleted on a daily schedule. Private conversations are automatically deleted once they have been inactive for 24 hours after the last message; this cleanup runs every 6 hours, so a conversation may remain for up to about 30 hours after its last message. Deletion is automated and timing may vary slightly.",
       "If you report a message, a copy of the reported message text may be stored with the report so that moderators can review it. Reports and the message text they contain may be retained for as long as reasonably necessary for safety, moderation, and legal compliance.",
-      "Purchase and subscription records may be retained as required for accounting, fraud prevention, and legal compliance.",
-      "Support tickets, including the contact email and description you provide and any attachments, may be retained to resolve your request and for record-keeping, and may remain after account deletion for a limited period.",
+      "Purchase and subscription records, including VIP subscription records and VIP gift records, may be retained as required for accounting, fraud prevention, and legal compliance. These records are kept after account deletion; they remain as records and are not linked to a profile, which is deleted.",
+      "Support tickets, including the contact email and description you provide and any attachments, are used to resolve your request. They are deleted when your account is deleted.",
       "Reports and moderation records may be retained to investigate violations, prevent repeated abuse, and manage appeals.",
       "Child safety evidence: When a report involves a suspected underage user or child sexual abuse or exploitation, we keep a separate evidence record. It may include account identifiers, the reported user's email address, the reported message, the reported user's recent public messages, surrounding room messages, the private conversation between the reporter and the reported user, and copies of the reported user's avatar and background photo. This record is not deleted automatically, is not removed when either account is deleted, and is kept until we delete it manually, for example after it has been handed to the relevant authorities.",
-      "Permanent bans: When an account is permanently banned, we store a one-way hash of its email address (including common variants of the same address) so that the banned person cannot sign up again. This record is not removed when the account is deleted.",
+      "Mutes and bans: When an account is muted or banned (temporarily or permanently), the moderation record is kept, with no profile data. We store the account's email address only as one-way hashes: an exact hash, and a \"same mailbox\" hash that ignores a +tag and, for Gmail addresses, dots. While a restriction is active, earlier email addresses of the account are also hashed. These one-way hashes are not removed when the account is deleted. If someone signs up again and confirms an email address that matches, any restriction that is still active (not lifted and not expired) is applied to the new account, with the same end date. A permanent ban does not block signup; the new account can be created but stays suspended. Restrictions that were lifted or have expired are not carried over.",
       "Technical and security records may be retained for troubleshooting, fraud prevention, and platform security.",
       "Certain information may remain in backups for a limited period after deletion."
     ],
@@ -233,7 +234,7 @@ const sections = [
       "You may request deletion of your Gumzo account through the account deletion option provided in the application, where available, or by contacting our support team.",
       "When an account deletion request is processed, we delete or anonymize your profile, username, email, avatar and background photo, messages, friends, settings, and push token, and remove your login, subject to applicable legal requirements and legitimate retention needs.",
       "Account deletion may be restricted while an active subscription remains, or where administrative content (relevant to staff accounts) must first be transferred or otherwise handled. If you have an active subscription, you must cancel it through the Google Play cancellation process before your account can be deleted; deleting your Gumzo account does not cancel a Google Play subscription.",
-      "Certain information may be retained after account deletion where necessary for child safety, abuse prevention, legal compliance, security investigations or other legitimate safety purposes. Such information is retained only for the applicable purpose and handled in accordance with our retention practices and legal obligations. For example, a report may remain in our records after the reported or reporting account is deleted, with the link to the deleted account removed. Child safety evidence records (described in the Data Retention section) and the email hash stored for permanently banned accounts are also kept after account deletion, and the email address held in a child safety evidence record is not removed.",
+      "Certain information may be retained after account deletion where necessary for child safety, abuse prevention, legal compliance, security investigations or other legitimate safety purposes. Such information is retained only for the applicable purpose and handled in accordance with our retention practices and legal obligations. For example, a report may remain in our records after the reported or reporting account is deleted, with the link to the deleted account removed. Moderation records of mutes and bans (temporary and permanent), together with the one-way email hashes described in the Data Retention section, are kept after account deletion so that a restriction that is still active can apply if you sign up again. VIP subscription records and VIP gift records are kept for accounting, fraud prevention, and legal reasons, and are not linked to a profile. Child safety evidence records (described in the Data Retention section) are also kept after account deletion, and the email address held in a child safety evidence record is not removed. Support tickets and their attachments are deleted when your account is deleted.",
       "Some information may need to be retained for a limited period to:"
     ],
     bullets: [
@@ -241,7 +242,7 @@ const sections = [
       "Investigate fraud, abuse, or security incidents.",
       "Resolve disputes and enforce our agreements.",
       "Maintain necessary moderation and safety records.",
-      "Keep purchase and subscription records and support tickets that we are required or permitted to retain.",
+      "Keep purchase, subscription, and VIP gift records that we are required or permitted to retain.",
       "Complete deletion from backup systems according to their retention cycles."
     ],
     ending: "Deleting your account may result in the permanent loss of access to your profile, messages, room participation, and other account-related features. Some information already shared with other users may remain visible to them or in their possession."
