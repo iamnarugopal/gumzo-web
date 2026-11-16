@@ -278,8 +278,8 @@ export default function DeleteAccountForm() {
     event.preventDefault();
     setError("");
 
-    if (!/^\d{8}$/.test(otp)) {
-      setError("Please enter a valid 8-digit verification code.");
+    if (!/^\d{6}$/.test(otp)) {
+      setError("Please enter a valid 6-digit verification code.");
       return;
     }
 
@@ -544,7 +544,7 @@ export default function DeleteAccountForm() {
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-gray-400">
-                Enter the 8-digit verification code sent to:
+                Enter the 6-digit verification code sent to:
               </p>
 
               <p className="mt-2 break-all text-sm font-semibold text-primary">
@@ -569,10 +569,10 @@ export default function DeleteAccountForm() {
                     event.target.value.replace(/\D/g, "").slice(0, 8),
                   )
                 }
-                placeholder="00000000"
+                placeholder="000000"
                 inputMode="numeric"
                 autoComplete="one-time-code"
-                maxLength={8}
+                maxLength={6}
                 required
                 className={`${inputClasses} text-center text-xl tracking-[0.5em]`}
               />
