@@ -2,7 +2,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 
-const effectiveDate = "15 November 2026";
+const effectiveDate = "16 November 2026";
 
 const sections = [
   {
@@ -25,7 +25,7 @@ const sections = [
       "Account Information: Username, email address, authentication identifiers, and other information provided during account registration or account management.",
       "Profile Information: Profile details, avatar images, background photo, profile preferences, and other information you choose to display on your account.",
       "Communication Information: Chat messages, private messages, and other content you submit or share through Gumzo.",
-      "Activity Information: Chat room participation, room memberships, interactions, and other activities associated with your use of the platform.",
+      "Activity Information: Chat room participation, room memberships, interactions, and other activities associated with your use of the platform, including profile likes, favourites, and feed activity.",
       "Settings and Preferences: Language preferences, notification preferences, privacy settings, visibility preferences, and other account settings.",
       "Reports and Moderation Information: Reports you submit, reported content, moderation records, account restrictions, and information necessary to investigate policy violations.",
       "Notification Information: Push notification tokens and related notification preferences when you enable push notifications.",
@@ -185,11 +185,13 @@ const sections = [
     bullets: [
       "Account information may be retained while your account remains active.",
       "Profile information and preferences may be retained to provide your account features.",
-      "Public chat room messages are automatically deleted on a daily schedule. Private conversations are automatically deleted after a period of inactivity (currently about one hour after the last message). Deletion is automated and timing may vary slightly.",
+      "Public chat room messages are automatically deleted on a daily schedule. Private conversations are automatically deleted once they have been inactive for 24 hours after the last message; this cleanup runs every 6 hours, so a conversation may remain for up to about 30 hours after its last message. Deletion is automated and timing may vary slightly.",
       "If you report a message, a copy of the reported message text may be stored with the report so that moderators can review it. Reports and the message text they contain may be retained for as long as reasonably necessary for safety, moderation, and legal compliance.",
       "Purchase and subscription records may be retained as required for accounting, fraud prevention, and legal compliance.",
       "Support tickets, including the contact email and description you provide and any attachments, may be retained to resolve your request and for record-keeping, and may remain after account deletion for a limited period.",
       "Reports and moderation records may be retained to investigate violations, prevent repeated abuse, and manage appeals.",
+      "Child safety evidence: When a report involves a suspected underage user or child sexual abuse or exploitation, we keep a separate evidence record. It may include account identifiers, the reported user's email address, the reported message, the reported user's recent public messages, surrounding room messages, the private conversation between the reporter and the reported user, and copies of the reported user's avatar and background photo. This record is not deleted automatically, is not removed when either account is deleted, and is kept until we delete it manually, for example after it has been handed to the relevant authorities.",
+      "Permanent bans: When an account is permanently banned, we store a one-way hash of its email address (including common variants of the same address) so that the banned person cannot sign up again. This record is not removed when the account is deleted.",
       "Technical and security records may be retained for troubleshooting, fraud prevention, and platform security.",
       "Certain information may remain in backups for a limited period after deletion."
     ],
@@ -231,7 +233,7 @@ const sections = [
       "You may request deletion of your Gumzo account through the account deletion option provided in the application, where available, or by contacting our support team.",
       "When an account deletion request is processed, we delete or anonymize your profile, username, email, avatar and background photo, messages, friends, settings, and push token, and remove your login, subject to applicable legal requirements and legitimate retention needs.",
       "Account deletion may be restricted while an active subscription remains, or where administrative content (relevant to staff accounts) must first be transferred or otherwise handled. If you have an active subscription, you must cancel it through the Google Play cancellation process before your account can be deleted; deleting your Gumzo account does not cancel a Google Play subscription.",
-      "Certain information may be retained after account deletion where necessary for child safety, abuse prevention, legal compliance, security investigations or other legitimate safety purposes. Such information is retained only for the applicable purpose and handled in accordance with our retention practices and legal obligations. For example, a report may remain in our records after the reported or reporting account is deleted, with the link to the deleted account removed.",
+      "Certain information may be retained after account deletion where necessary for child safety, abuse prevention, legal compliance, security investigations or other legitimate safety purposes. Such information is retained only for the applicable purpose and handled in accordance with our retention practices and legal obligations. For example, a report may remain in our records after the reported or reporting account is deleted, with the link to the deleted account removed. Child safety evidence records (described in the Data Retention section) and the email hash stored for permanently banned accounts are also kept after account deletion, and the email address held in a child safety evidence record is not removed.",
       "Some information may need to be retained for a limited period to:"
     ],
     bullets: [
