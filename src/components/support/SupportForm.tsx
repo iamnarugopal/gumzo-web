@@ -39,9 +39,6 @@ declare global {
 }
 
 const SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-
 const RECAPTCHA_ACTION = "submit_support";
 
 // --------------------------------------------------
@@ -342,6 +339,9 @@ export default function SupportForm() {
 
     // Honeypot: real users never see or fill this field.
     if (website) {
+      if (import.meta.env.DEV) {
+        console.warn("Honeypot field was filled; submission silently dropped.");
+      }
       setStatus({
         message: "Your support ticket has been submitted successfully.",
         type: "success",
@@ -418,7 +418,7 @@ export default function SupportForm() {
     }
 
     // Check configuration
-    if (!SITE_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
+    if (!SITE_KEY) {
       setStatus({
         message: "Support submission is currently unavailable.",
         type: "error",
@@ -480,12 +480,10 @@ export default function SupportForm() {
       // --------------------------------------------
 
       const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/submit-support`,
+        "/api/submit-support",
         {
           method: "POST",
           headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
           },
           body: formData,
         }
@@ -789,13 +787,15 @@ export default function SupportForm() {
           aria-hidden="true"
           style={{ position: "absolute", left: "-9999px", height: 0, overflow: "hidden" }}
         >
-          <label htmlFor="support-website">Website</label>
+          <label htmlFor="support-hp">Leave this field empty</label>
           <input
-            id="support-website"
-            name="website"
+            id="support-hp"
+            name="hp_field_do_not_fill"
             type="text"
             tabIndex={-1}
             autoComplete="off"
+            data-lpignore="true"
+            data-1p-ignore="true"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
           />

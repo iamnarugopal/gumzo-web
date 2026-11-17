@@ -33,12 +33,6 @@ const OTP_COOLDOWN_MS = 60_000;
 const RECAPTCHA_SITE_KEY =
   import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 
-const SUPABASE_URL =
-  import.meta.env.PUBLIC_SUPABASE_URL;
-
-const SUPABASE_ANON_KEY =
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-
 const RECAPTCHA_SCRIPT_ID = "google-recaptcha-v3";
 
 export default function DeleteAccountForm() {
@@ -221,13 +215,11 @@ export default function DeleteAccountForm() {
       );
 
       const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/request-account-deletion-otp`,
+        "/api/request-account-deletion-otp",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             username: normalizedUsername,
@@ -296,13 +288,11 @@ export default function DeleteAccountForm() {
       );
 
       const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/verify-account-deletion-otp`,
+        "/api/verify-account-deletion-otp",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             username: username.trim().toLowerCase(),

@@ -36,9 +36,6 @@ const reportOptions = [
   },
 ];
 
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-
 const ACTION = "submit_report";
 
 export default function ReportForm() {
@@ -136,6 +133,9 @@ export default function ReportForm() {
 
     // Honeypot: real users never see or fill this field.
     if (website) {
+      if (import.meta.env.DEV) {
+        console.warn("Honeypot field was filled; submission silently dropped.");
+      }
       setMessage("Your report has been submitted successfully.");
       return;
     }
@@ -197,7 +197,7 @@ export default function ReportForm() {
     }
 
     // Check configuration
-    if (!SITE_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
+    if (!SITE_KEY) {
       setMessage("Report submission is currently unavailable.");
       console.error("Missing environment variables.");
       return;
@@ -222,13 +222,11 @@ export default function ReportForm() {
 
       // Submit report to Supabase Edge Function
       const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/submit-report`,
+        "/api/submit-report",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
           },
           body: JSON.stringify({
             reportedUsername: reported,
@@ -446,13 +444,15 @@ export default function ReportForm() {
           aria-hidden="true"
           style={{ position: "absolute", left: "-9999px", height: 0, overflow: "hidden" }}
         >
-          <label htmlFor="report-website">Website</label>
+          <label htmlFor="report-hp">Leave this field empty</label>
           <input
-            id="report-website"
-            name="website"
+            id="report-hp"
+            name="hp_field_do_not_fill"
             type="text"
             tabIndex={-1}
             autoComplete="off"
+            data-lpignore="true"
+            data-1p-ignore="true"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
           />
