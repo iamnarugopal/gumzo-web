@@ -3,5 +3,5 @@ import { proxyToEdgeFunction } from "../../lib/supabaseProxy";
 
 export const prerender = false;
 
-export const POST: APIRoute = ({ request }) =>
-  proxyToEdgeFunction(request, "submit-report");
+export const POST: APIRoute = ({ request, clientAddress }) =>
+  proxyToEdgeFunction(request, clientAddress, "submit-report");

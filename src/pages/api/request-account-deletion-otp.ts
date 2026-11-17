@@ -3,5 +3,5 @@ import { proxyToEdgeFunction } from "../../lib/supabaseProxy";
 
 export const prerender = false;
 
-export const POST: APIRoute = ({ request }) =>
-  proxyToEdgeFunction(request, "request-account-deletion-otp");
+export const POST: APIRoute = ({ request, clientAddress }) =>
+  proxyToEdgeFunction(request, clientAddress, "request-account-deletion-otp");
