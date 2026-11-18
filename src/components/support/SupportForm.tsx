@@ -87,15 +87,18 @@ const categories = [
 // --------------------------------------------------
 
 const MAX_ATTACHMENTS = 5;
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MIN_DESCRIPTION_LENGTH = 10;
 
-// Bug report attachments are images only (same as the app and the server).
-const allowedExtensions = {
-  image: ["jpg", "jpeg", "png", "webp", "gif"],
+// Bug report attachments are images only (same as the app and the server). The size and the
+// types below are the most the server accepts and are used until the admin's settings load.
+// The admin can narrow them in the app (Management > App Settings > Media); the form reads
+// them from /api/support-settings so both always match.
+const DEFAULT_LIMITS = {
+  maxKb: 5 * 1024,
+  exts: ["jpg", "jpeg", "png", "webp", "gif"],
 };
 
-type FileType = "image";
+type Limits = typeof DEFAULT_LIMITS;
 
 type Status = {
   message: string;
@@ -110,12 +113,18 @@ function getFileExtension(fileName: string) {
   return fileName.split(".").pop()?.toLowerCase() || "";
 }
 
-function getFileType(file: File): FileType | null {
-  const extension = getFileExtension(file.name);
+function formatLimit(kb: number) {
+  if (kb < 1024) return `${kb} KB`;
 
-  if (allowedExtensions.image.includes(extension)) return "image";
+  const mb = kb / 1024;
 
-  return null;
+  return `${Number.isInteger(mb) ? mb : mb.toFixed(1)} MB`;
+}
+
+function formatExts(exts: string[]) {
+  const labels = exts.map((ext) => (ext === "jpeg" ? "jpg" : ext).toUpperCase());
+
+  return [...new Set(labels)].join(", ");
 }
 
 function formatFileSize(bytes: number) {
@@ -139,6 +148,7 @@ export default function SupportForm() {
   const [status, setStatus] = useState<Status>(null);
   const [submitting, setSubmitting] = useState(false);
   const [captchaReady, setCaptchaReady] = useState(false);
+  const [limits, setLimits] = useState<Limits>(DEFAULT_LIMITS);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [website, setWebsite] = useState(""); // honeypot
@@ -219,6 +229,45 @@ export default function SupportForm() {
   }, []);
 
   // ------------------------------------------------
+  // Attachment rules set by the admin in the app
+  // ------------------------------------------------
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/support-settings", { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (
+          !data?.success ||
+          typeof data.max_kb !== "number" ||
+          !Array.isArray(data.exts) ||
+          data.exts.length === 0
+        ) {
+          return;
+        }
+
+        // Never allow more than the form's built-in maximum.
+        const exts = data.exts.filter(
+          (ext: unknown): ext is string =>
+            typeof ext === "string" && DEFAULT_LIMITS.exts.includes(ext)
+        );
+
+        if (exts.length === 0) return;
+
+        setLimits({
+          maxKb: Math.min(data.max_kb, DEFAULT_LIMITS.maxKb),
+          exts,
+        });
+      })
+      .catch(() => {
+        // Keep the defaults if the settings cannot be loaded.
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  // ------------------------------------------------
   // Styles
   // ------------------------------------------------
 
@@ -269,15 +318,17 @@ export default function SupportForm() {
     const invalidFiles: string[] = [];
 
     for (const file of selectedFiles) {
-      const type = getFileType(file);
-
-      if (!type) {
-        invalidFiles.push(`${file.name}: Only images are allowed.`);
+      if (!limits.exts.includes(getFileExtension(file.name))) {
+        invalidFiles.push(
+          `${file.name}: Only ${formatExts(limits.exts)} images are allowed.`
+        );
         continue;
       }
 
-      if (file.size > MAX_FILE_SIZE) {
-        invalidFiles.push(`${file.name}: Image exceeds 5 MB.`);
+      if (file.size > limits.maxKb * 1024) {
+        invalidFiles.push(
+          `${file.name}: Image exceeds ${formatLimit(limits.maxKb)}.`
+        );
       }
     }
 
@@ -705,8 +756,6 @@ export default function SupportForm() {
             {/* Selected Files */}
             <div className="mb-3 space-y-2">
               {files.map((file, index) => {
-                const type = getFileType(file);
-
                 return (
                   <div
                     key={`${file.name}-${index}`}
@@ -714,7 +763,7 @@ export default function SupportForm() {
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                       <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary">
-                        {type === "image" ? "IMG" : "FILE"}
+                        IMG
                       </div>
 
                       <div className="min-w-0 flex-1">
@@ -756,7 +805,7 @@ export default function SupportForm() {
                 </span>
 
                 <span className="mt-2 text-xs leading-5 text-gray-500">
-                  JPG, PNG, WebP or GIF · up to 5 MB each
+                  {formatExts(limits.exts)} · up to {formatLimit(limits.maxKb)} each
                 </span>
 
                 <span className="mt-1 text-xs text-gray-500">
@@ -771,7 +820,7 @@ export default function SupportForm() {
               name="attachments"
               type="file"
               multiple
-              accept=".jpg,.jpeg,.png,.webp,.gif"
+              accept={limits.exts.map((ext) => `.${ext}`).join(",")}
               onChange={handleFileChange}
               className="hidden"
             />
