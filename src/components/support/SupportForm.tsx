@@ -88,15 +88,14 @@ const categories = [
 
 const MAX_ATTACHMENTS = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const MAX_VIDEO_SIZE = 20 * 1024 * 1024;
+const MIN_DESCRIPTION_LENGTH = 10;
 
+// Bug report attachments are images only (same as the app and the server).
 const allowedExtensions = {
   image: ["jpg", "jpeg", "png", "webp", "gif"],
-  video: ["mp4", "mov", "avi", "mkv", "webm"],
-  file: ["pdf", "doc", "docx", "txt", "csv", "zip"],
 };
 
-type FileType = "image" | "video" | "file";
+type FileType = "image";
 
 type Status = {
   message: string;
@@ -115,8 +114,6 @@ function getFileType(file: File): FileType | null {
   const extension = getFileExtension(file.name);
 
   if (allowedExtensions.image.includes(extension)) return "image";
-  if (allowedExtensions.video.includes(extension)) return "video";
-  if (allowedExtensions.file.includes(extension)) return "file";
 
   return null;
 }
@@ -275,17 +272,12 @@ export default function SupportForm() {
       const type = getFileType(file);
 
       if (!type) {
-        invalidFiles.push(`${file.name}: Unsupported file format.`);
+        invalidFiles.push(`${file.name}: Only images are allowed.`);
         continue;
       }
 
-      if (type === "video" && file.size > MAX_VIDEO_SIZE) {
-        invalidFiles.push(`${file.name}: Video exceeds 20 MB.`);
-        continue;
-      }
-
-      if (type !== "video" && file.size > MAX_FILE_SIZE) {
-        invalidFiles.push(`${file.name}: File exceeds 5 MB.`);
+      if (file.size > MAX_FILE_SIZE) {
+        invalidFiles.push(`${file.name}: Image exceeds 5 MB.`);
       }
     }
 
@@ -403,6 +395,14 @@ export default function SupportForm() {
     if (!trimmedDescription) {
       setStatus({
         message: "Please provide a description.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (trimmedDescription.length < MIN_DESCRIPTION_LENGTH) {
+      setStatus({
+        message: `Description must contain at least ${MIN_DESCRIPTION_LENGTH} characters.`,
         type: "error",
       });
       return;
@@ -693,7 +693,7 @@ export default function SupportForm() {
                 </label>
 
                 <p className="mt-1 text-xs text-gray-500">
-                  Add screenshots, videos or relevant files.
+                  Add screenshots that show the problem.
                 </p>
               </div>
 
@@ -714,11 +714,7 @@ export default function SupportForm() {
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                       <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary">
-                        {type === "image"
-                          ? "IMG"
-                          : type === "video"
-                            ? "VID"
-                            : "FILE"}
+                        {type === "image" ? "IMG" : "FILE"}
                       </div>
 
                       <div className="min-w-0 flex-1">
@@ -756,11 +752,11 @@ export default function SupportForm() {
                 </div>
 
                 <span className="text-sm font-semibold text-gray-200">
-                  Click to upload files
+                  Click to upload images
                 </span>
 
                 <span className="mt-2 text-xs leading-5 text-gray-500">
-                  Images and documents up to 5 MB · Videos up to 20 MB
+                  JPG, PNG, WebP or GIF · up to 5 MB each
                 </span>
 
                 <span className="mt-1 text-xs text-gray-500">
@@ -775,7 +771,7 @@ export default function SupportForm() {
               name="attachments"
               type="file"
               multiple
-              accept=".jpg,.jpeg,.png,.webp,.gif,.mp4,.mov,.avi,.mkv,.webm,.pdf,.doc,.docx,.txt,.csv,.zip"
+              accept=".jpg,.jpeg,.png,.webp,.gif"
               onChange={handleFileChange}
               className="hidden"
             />
