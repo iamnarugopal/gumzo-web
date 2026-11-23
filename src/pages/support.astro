@@ -1,6 +1,6 @@
 
 ---
-import { LuLifeBuoy } from "react-icons/lu";
+import { LuLifeBuoy, LuMail } from "react-icons/lu";
 import SupportForm from "../components/support/SupportForm";
 import MainLayout from "../layouts/MainLayout.astro";
 ---
@@ -39,6 +39,25 @@ import MainLayout from "../layouts/MainLayout.astro";
 
       <!-- React Support Form -->
       <SupportForm client:load />
+
+      <!-- Email option for people without the app -->
+      <div class="mt-8 rounded-2xl border border-primary/25 bg-primary/10 p-5 text-center sm:p-6">
+        <div class="mx-auto mb-3 flex size-11 items-center justify-center rounded-xl bg-primary/15 text-primary-light">
+          <LuMail size={22} />
+        </div>
+        <h2 class="text-base font-semibold text-white sm:text-lg">
+          Don't use the Gumzo app?
+        </h2>
+        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-300">
+          If you don't have a Gumzo account or can't use the app, you can still reach us by email with any question or query.
+        </p>
+        <a
+          href="mailto:gumzo.support@gmail.com"
+          class="mt-4 inline-block break-all text-sm font-semibold text-primary-light hover:underline sm:text-base"
+        >
+          gumzo.support@gmail.com
+        </a>
+      </div>
 
     </div>
   </section>
