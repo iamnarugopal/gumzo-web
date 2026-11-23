@@ -8,6 +8,10 @@
   /* Brand colors */
   --color-primary: #A82DDB;
   --color-secondary: #732FFF;
+
+  /* Lighter brand tints for small text on dark backgrounds (WCAG AA) */
+  --color-primary-light: #D98CF5;
+  --color-secondary-light: #B39DFF;
   --color-accent: #A6006E;
   --color-accent-dark: #4D003B;
 

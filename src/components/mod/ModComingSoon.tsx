@@ -43,11 +43,11 @@ export default function ModComingSoon() {
       <div className="mx-auto w-full max-w-5xl">
         {/* Hero */}
         <section className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 text-primary sm:size-16">
+          <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10 text-primary-light sm:size-16">
             <LuShieldCheck className="size-7 sm:size-[34px]" />
           </div>
 
-          <span className="inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-primary sm:px-4 sm:text-xs sm:tracking-widest">
+          <span className="inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-primary-light sm:px-4 sm:text-xs sm:tracking-widest">
             <LuClock className="size-3.5 shrink-0" />
             Moderator Programme
           </span>
@@ -82,12 +82,12 @@ export default function ModComingSoon() {
                 key={title}
                 className="flex items-start gap-3 rounded-xl border border-white/10 bg-dark-2/70 p-4 transition-colors hover:border-primary/30 sm:gap-4 sm:rounded-2xl sm:p-5 lg:p-6"
               >
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary sm:size-12 sm:rounded-xl">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary-light sm:size-12 sm:rounded-xl">
                   <Icon className="size-5 sm:size-[22px]" />
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <span className="text-[11px] font-semibold text-primary sm:text-xs">
+                  <span className="text-[11px] font-semibold text-primary-light sm:text-xs">
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
@@ -106,7 +106,7 @@ export default function ModComingSoon() {
 
         {/* Application announcement */}
         <section className="mt-8 rounded-xl border border-primary/20 bg-primary/5 px-4 py-7 text-center sm:mt-12 sm:rounded-2xl sm:px-8 sm:py-9">
-          <LuHeartHandshake className="mx-auto size-7 text-primary sm:size-[30px]" />
+          <LuHeartHandshake className="mx-auto size-7 text-primary-light sm:size-[30px]" />
 
           <h2 className="mt-3 text-xl font-bold text-white sm:mt-4 sm:text-2xl">
             Be Part of the Gumzo Team
@@ -118,7 +118,7 @@ export default function ModComingSoon() {
             and get ready to take the next step.
           </p>
 
-          <div className="mt-5 inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2.5 text-[11px] font-semibold text-primary sm:px-5 sm:text-xs">
+          <div className="mt-5 inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2.5 text-[11px] font-semibold text-primary-light sm:px-5 sm:text-xs">
             <LuClock className="size-3.5 shrink-0" />
             Applications Opening Soon
           </div>

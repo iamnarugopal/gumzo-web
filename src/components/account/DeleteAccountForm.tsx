@@ -365,7 +365,7 @@ export default function DeleteAccountForm() {
                         completed
                           ? "border-primary bg-primary text-white"
                           : active
-                            ? "border-primary bg-primary/10 text-primary"
+                            ? "border-primary bg-primary/10 text-primary-light"
                             : "border-white/10 bg-dark-3 text-gray-500"
                       }`}
                     >
@@ -375,7 +375,7 @@ export default function DeleteAccountForm() {
                     <span
                       className={`text-xs ${
                         active || completed
-                          ? "font-semibold text-primary"
+                          ? "font-semibold text-primary-light"
                           : "text-gray-500"
                       }`}
                     >
@@ -402,7 +402,7 @@ export default function DeleteAccountForm() {
         {step === "email" && (
           <form onSubmit={handleEmailSubmit}>
             <div className="mb-6">
-              <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary-light">
                 <LuShieldCheck size={24} />
               </div>
 
@@ -525,7 +525,7 @@ export default function DeleteAccountForm() {
         {step === "verification" && (
           <form onSubmit={handleOtpSubmit}>
             <div className="mb-6">
-              <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary-light">
                 <LuMail size={24} />
               </div>
 
@@ -537,7 +537,7 @@ export default function DeleteAccountForm() {
                 Enter the 6-digit verification code sent to:
               </p>
 
-              <p className="mt-2 break-all text-sm font-semibold text-primary">
+              <p className="mt-2 break-all text-sm font-semibold text-primary-light">
                 {email}
               </p>
             </div>

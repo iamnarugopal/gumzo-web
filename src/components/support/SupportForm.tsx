@@ -748,7 +748,7 @@ export default function SupportForm() {
                 </p>
               </div>
 
-              <span className="shrink-0 text-xs font-medium text-primary">
+              <span className="shrink-0 text-xs font-medium text-primary-light">
                 {files.length} / {MAX_ATTACHMENTS}
               </span>
             </div>
@@ -762,7 +762,7 @@ export default function SupportForm() {
                     className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-white/10 bg-dark-3 p-3"
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary">
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary-light">
                         IMG
                       </div>
 
@@ -796,7 +796,7 @@ export default function SupportForm() {
                 htmlFor="attachments"
                 className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/15 bg-dark-3 px-4 py-8 text-center transition hover:border-primary/50 hover:bg-primary/5"
               >
-                <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary-light">
                   <LuUpload size={25} />
                 </div>
 
