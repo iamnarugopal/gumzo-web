@@ -2,7 +2,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 
-const effectiveDate = "16 November 2026";
+const effectiveDate = "23 November 2026";
 
 const sections = [
   {
@@ -23,6 +23,7 @@ const sections = [
     ],
     bullets: [
       "Account Information: Username, email address, authentication identifiers, and other information provided during account registration or account management.",
+      "Guest Account Information: If you continue as a guest, we create a temporary anonymous account for you without asking for an email address. We collect an anonymous authentication identifier, an automatically assigned username, the messages you send, and the time you were last active, which we use to delete inactive guest accounts.",
       "Profile Information: Profile details, avatar images, background photo, profile preferences, and other information you choose to display on your account.",
       "Communication Information: Chat messages, private messages, and other content you submit or share through Gumzo.",
       "Activity Information: Chat room participation, room memberships, interactions, and other activities associated with your use of the platform, including profile likes, favourites, and feed activity.",
@@ -185,6 +186,7 @@ const sections = [
     ],
     bullets: [
       "Account information may be retained while your account remains active.",
+      "Guest accounts are temporary. When you sign out of a guest account, it is permanently deleted along with its data. A guest account that has been inactive for 30 days is deleted automatically. If you create a full account from a guest account, the guest account and its messages are deleted first and are not transferred.",
       "Profile information and preferences may be retained to provide your account features.",
       "Public chat room messages are automatically deleted on a daily schedule. Private conversations are automatically deleted once they have been inactive for 24 hours after the last message; this cleanup runs every 6 hours, so a conversation may remain for up to about 30 hours after its last message. Deletion is automated and timing may vary slightly.",
       "If you report a message, a copy of the reported message text may be stored with the report so that moderators can review it. Reports and the message text they contain may be retained for as long as reasonably necessary for safety, moderation, and legal compliance.",
@@ -233,6 +235,7 @@ const sections = [
     paragraphs: [
       "You may request deletion of your Gumzo account through the account deletion option provided in the application, where available, or by contacting our support team.",
       "When an account deletion request is processed, we delete or anonymize your profile, username, email, avatar and background photo, messages, friends, settings, and push token, and remove your login, subject to applicable legal requirements and legitimate retention needs.",
+      "Guest accounts do not have an email address, so the email-based deletion form on our website does not apply to them. To delete a guest account, sign out of it in the app, which permanently deletes it immediately. Guest accounts that are not used for 30 days are deleted automatically.",
       "Account deletion may be restricted while an active subscription remains, or where administrative content (relevant to staff accounts) must first be transferred or otherwise handled. If you have an active subscription, you must cancel it through the Google Play cancellation process before your account can be deleted; deleting your Gumzo account does not cancel a Google Play subscription.",
       "Certain information may be retained after account deletion where necessary for child safety, abuse prevention, legal compliance, security investigations or other legitimate safety purposes. Such information is retained only for the applicable purpose and handled in accordance with our retention practices and legal obligations. For example, a report may remain in our records after the reported or reporting account is deleted, with the link to the deleted account removed. Moderation records of mutes and bans (temporary and permanent), together with the one-way email hashes described in the Data Retention section, are kept after account deletion so that a restriction that is still active can apply if you sign up again. VIP subscription records and VIP gift records are kept for accounting, fraud prevention, and legal reasons, and are not linked to a profile. Child safety evidence records (described in the Data Retention section) are also kept after account deletion, and the email address held in a child safety evidence record is not removed. Support tickets and their attachments are deleted when your account is deleted.",
       "Some information may need to be retained for a limited period to:"
